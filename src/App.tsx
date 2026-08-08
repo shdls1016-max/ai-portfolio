@@ -528,7 +528,7 @@ function DetailSlide({ project }: { project: DetailProject }) {
   return (
     <article className="carousel-slide">
       <div className="detail-layout">
-        <div>
+        <div className="detail-visual">
           <div className="detail-preview"><img src={assetPath(project.image)} alt={`${project.category} 전체 이미지`} loading="lazy" /></div>
           <p className="scroll-guide"><MousePointer2 size={15} /> 이미지 위에서 스크롤해 전체 페이지를 확인해 보세요.</p>
         </div>
@@ -604,7 +604,6 @@ function Contact() {
           <a href="mailto:rv729@naver.com"><span><Mail /> EMAIL</span><strong>rv729@naver.com</strong><ArrowUpRight /></a>
           <button onClick={copyKakao}><span><Copy /> KAKAOTALK</span><strong>{copied ? 'ID가 복사되었습니다' : 'hihi9888'}</strong><ArrowUpRight /></button>
           <a href="https://blog.naver.com/study_log25" target="_blank" rel="noreferrer"><span>BLOG</span><strong>study_log25</strong><ArrowUpRight /></a>
-          <a href="https://github.com/shdls1016-max" target="_blank" rel="noreferrer"><span>GITHUB</span><strong>shdls1016-max</strong><ArrowUpRight /></a>
         </div>
         <div className="contact-footer">
           <span>© 2026 SONHYEIN</span>

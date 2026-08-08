@@ -274,14 +274,19 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .card-news-item { aspect-ratio: 1/1; }
 .card-news-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
 .card-news-item:hover img { transform: scale(1.035); }
-.card-news-actions { margin-top: 32px; display: flex; justify-content: flex-end; }
+.card-news-actions { margin-top: 32px; display: flex; justify-content: center; }
 
 .detail { background: #fff; }
-.detail-preview { width: min(100%,540px); margin: 0 auto; border: 1px solid var(--color-line); border-radius: 14px; box-shadow: 0 24px 70px rgba(44,56,75,.13); }
+.detail-layout { align-items: stretch; }
+.detail-visual, .detail-copy { height: clamp(600px,70vh,660px); }
+.detail-visual { min-width: 0; display: flex; flex-direction: column; }
+.detail-preview { width: min(100%,540px); height: auto; min-height: 0; flex: 1; margin: 0 auto; border: 1px solid var(--color-line); border-radius: 14px; box-shadow: none; }
 .detail-copy { padding-top: 8px; }
 .ai-mode { display: inline-flex; margin: 18px 0 28px; padding: 8px 12px; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--color-accent); background: #edf4ff; border-radius: 999px; }
 .detail-subsection { margin-top: 28px; }
 .detail-subsection h4 { margin-bottom: 13px; font-size: 11px; letter-spacing: .12em; color: var(--color-text-tertiary); }
+.detail-subsection ul { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px 16px; }
+.detail-subsection li { align-items: flex-start; }
 
 .contact { min-height: 100svh; background: var(--color-text-primary); color: #fff; }
 .contact-layout { min-height: calc(100svh - 180px); display: grid; grid-template-columns: 1fr 1fr; align-content: center; gap: 80px; }
@@ -358,6 +363,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .device-mockup { width: min(84vw,320px); height: auto; }
   .carousel-header, .visual-heading { align-items: flex-start; }
   .landing-layout, .detail-layout { gap: 46px; }
+  .detail-visual, .detail-copy { height: auto; }
   .landing-layout { min-height: 0; }
   .landing-preview, .landing-copy { height: auto; }
   .landing-preview .browser-frame { height: 62vh; flex: none; }
@@ -391,6 +397,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .landing-layout, .detail-layout { gap: 36px; }
   .browser-frame__scroll, .detail-preview { height: 52vh; }
   .landing-copy dl div, .detail-copy dl div, .game-copy dl div, .project-info dl div { grid-template-columns: 1fr; gap: 5px; }
+  .detail-subsection ul { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .visual-heading { display: block; }
   .pause-note { margin-top: 24px; }
   .marquee-row--wide img { width: 330px; }
