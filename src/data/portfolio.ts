@@ -38,7 +38,7 @@ export type LandingProject = {
   duration: string
   // 긴 랜딩페이지는 캡처 조각을 위에서부터 순서대로 추가합니다.
   // cropTop/cropBottom은 고정 요소와 중복 구간을 잘라낼 원본 픽셀 높이입니다.
-  images: Array<{ src: string; cropTop?: number; cropBottom?: number; sourceWidth?: number; sourceHeight?: number }>
+  images: Array<{ src: string; cropTop?: number; cropBottom?: number; sourceWidth?: number; sourceHeight?: number; fullPage?: boolean }>
   url: string
 }
 
@@ -176,15 +176,8 @@ export const landingProjects: LandingProject[] = [
     ai: '기획, 카피, 이미지, 코드 제작 전반에 AI를 활용하고 브라우저에서 직접 검수했습니다.',
     duration: '약 3일',
     images: [
-      { src: '/images/projects/landing-vitamin-01.png', cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-02.png', cropTop: 94, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-03.png', cropTop: 200, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-04.png', cropTop: 84, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-05.png', cropTop: 38, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-06.png', cropTop: 128, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-07.png', cropTop: 72, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-08.png', cropTop: 46, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
-      { src: '/images/projects/landing-vitamin-09.png', cropTop: 20, cropBottom: 100, sourceWidth: 2200, sourceHeight: 900 },
+      // 완성된 전체 페이지 이미지는 원본 비율을 유지한 채 너비에 맞춰 표시합니다.
+      { src: '/images/projects/landing-vitamin-full.jpg', sourceWidth: 1849, sourceHeight: 8385, fullPage: true },
     ],
     url: 'https://shdls1016-max.github.io/landing-vitamin/',
   },

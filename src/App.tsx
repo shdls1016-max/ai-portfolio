@@ -395,7 +395,7 @@ function BrowserPreview({ project }: { project: LandingProject }) {
               const visibleHeight = sourceHeight - cropTop - cropBottom
               return (
                 <div
-                  className="browser-frame__segment"
+                  className={`browser-frame__segment${segment.fullPage ? ' browser-frame__segment--full-page' : ''}`}
                   key={segment.src}
                   style={{
                     '--segment-crop': `${-(cropTop / sourceWidth) * 100}%`,
