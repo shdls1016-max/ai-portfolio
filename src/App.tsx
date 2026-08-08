@@ -1,7 +1,5 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
   ArrowDown,
   ArrowLeft,
@@ -31,8 +29,6 @@ import {
   type LandingProject,
   type WebProject,
 } from './data/portfolio'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
@@ -237,52 +233,83 @@ function ProjectInfo({ project, close }: { project: WebProject; close: () => voi
 }
 
 function WebProjects() {
-  const sectionRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const dragRef = useRef({ active: false, startX: 0, scrollLeft: 0 })
   const [selected, setSelected] = useState<number | null>(null)
 
-  useLayoutEffect(() => {
-    if (!sectionRef.current || !trackRef.current) return
-    const media = gsap.matchMedia()
-    media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-      const track = trackRef.current!
-      const section = sectionRef.current!
-      const tween = gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth + 48),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${track.scrollWidth - window.innerWidth}`,
-          scrub: 0.75,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      })
-      return () => tween.kill()
-    })
-    return () => media.revert()
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+
+    // 우측 프로젝트 영역 위에서만 세로 휠을 가로 이동으로 변환합니다.
+    // 양 끝에서는 이벤트를 막지 않아 페이지의 세로 스크롤이 자연스럽게 이어집니다.
+    const handleWheel = (event: WheelEvent) => {
+      if (!window.matchMedia('(min-width: 1024px)').matches) return
+
+      const movement = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+      const maxScroll = track.scrollWidth - track.clientWidth
+      const atStart = track.scrollLeft <= 1
+      const atEnd = track.scrollLeft >= maxScroll - 1
+      const shouldMoveInside = (movement > 0 && !atEnd) || (movement < 0 && !atStart)
+
+      if (!shouldMoveInside) return
+      event.preventDefault()
+      track.scrollLeft += movement * 1.15
+    }
+
+    track.addEventListener('wheel', handleWheel, { passive: false })
+    return () => track.removeEventListener('wheel', handleWheel)
   }, [])
 
+  const startDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest('button, a')) return
+    const track = trackRef.current
+    if (!track) return
+    dragRef.current = { active: true, startX: event.clientX, scrollLeft: track.scrollLeft }
+    track.setPointerCapture(event.pointerId)
+    track.classList.add('is-dragging')
+  }
+
+  const moveDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const track = trackRef.current
+    if (!track || !dragRef.current.active) return
+    track.scrollLeft = dragRef.current.scrollLeft - (event.clientX - dragRef.current.startX)
+  }
+
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const track = trackRef.current
+    if (!track || !dragRef.current.active) return
+    dragRef.current.active = false
+    if (track.hasPointerCapture(event.pointerId)) track.releasePointerCapture(event.pointerId)
+    track.classList.remove('is-dragging')
+  }
+
   return (
-    <section className="web-projects section-snap" id="web-projects" ref={sectionRef}>
+    <section className="web-projects section-snap" id="web-projects">
       <div className="web-projects__intro">
         <p className="section-eyebrow">02 · WEB PROJECTS</p>
         <h2>브랜드의 분위기부터<br />사용 흐름까지 설계합니다.</h2>
-        <p>세로로 스크롤하거나 직접 드래그해 프로젝트를 확인해 보세요.</p>
+        <p>오른쪽 영역에서 스크롤하거나 직접 드래그해 프로젝트를 확인해 보세요.</p>
       </div>
-      <div className="project-track" ref={trackRef}>
+      <div className="project-viewport">
+      <div
+        className="project-track"
+        ref={trackRef}
+        onPointerDown={startDrag}
+        onPointerMove={moveDrag}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+      >
         {webProjects.map((project, index) => (
           <article className="web-project-card" key={project.title}>
             <div className="web-project-card__visual">
-              <img src={assetPath(project.image)} alt={`${project.title} 웹사이트 메인 화면`} loading={index > 1 ? 'lazy' : 'eager'} />
+              <img src={assetPath(project.image)} alt={`${project.title} 웹사이트 메인 화면`} loading={index > 1 ? 'lazy' : 'eager'} draggable="false" />
               <div className="web-project-card__topline">
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <span>{project.type}</span>
               </div>
               <button className="project-detail-button" onClick={() => setSelected(index)}>
-                프로젝트 정보 <ArrowRight size={17} />
+                프로젝트 정보 <ArrowRight size={15} />
               </button>
             </div>
             <div className="web-project-card__caption">
@@ -292,6 +319,7 @@ function WebProjects() {
             {selected === index && <ProjectInfo project={project} close={() => setSelected(null)} />}
           </article>
         ))}
+      </div>
       </div>
     </section>
   )
