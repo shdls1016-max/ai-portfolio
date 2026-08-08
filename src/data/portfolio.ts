@@ -36,7 +36,9 @@ export type LandingProject = {
   flow: string[]
   ai: string
   duration: string
-  image: string
+  // 긴 랜딩페이지는 캡처 조각을 위에서부터 순서대로 추가합니다.
+  // cropTop은 고정 헤더가 찍힌 조각에서 잘라낼 원본 픽셀 높이입니다.
+  images: Array<{ src: string; cropTop?: number }>
   url: string
 }
 
@@ -137,7 +139,7 @@ export const webProjects: WebProject[] = [
 export const games: GameProject[] = [
   {
     title: 'Crossing Journey',
-    eyebrow: '03 · WEB APP / GAME 01',
+    eyebrow: '03 · WEB APP · GAME 01',
     description: '귀여운 동물 캐릭터와 함께 20개의 스테이지를 통과하는 모바일 퍼스트 캐주얼 게임입니다.',
     target: '직관적인 조작과 짧은 플레이를 선호하는 모바일 사용자',
     features: ['20개 스테이지와 4개 테마', '캐릭터 구매·선택·성장', '코인 및 최고 기록 저장', '모바일·PC 반응형 UI'],
@@ -150,7 +152,7 @@ export const games: GameProject[] = [
   },
   {
     title: 'STARBOUND STEPS',
-    eyebrow: 'WEB APP / GAME 02',
+    eyebrow: 'WEB APP · GAME 02',
     description: '좌우 방향을 판단해 끝없이 이어지는 계단을 오르는 반응형 아케이드 게임입니다.',
     target: '짧은 시간에 최고 기록에 도전하는 캐주얼 게임 사용자',
     features: ['좌우 입력과 방향 전환', '콤보·시간 제한·최고 기록', '높이에 따라 변하는 배경', 'LocalStorage 설정 저장'],
@@ -173,7 +175,18 @@ export const landingProjects: LandingProject[] = [
     flow: ['문제 공감', '일반 제품 비교', '23가지 성분', '사용자 후기', '첫 구매 혜택'],
     ai: '기획, 카피, 이미지, 코드 제작 전반에 AI를 활용하고 브라우저에서 직접 검수했습니다.',
     duration: '약 3일',
-    image: '/images/projects/landing-vitamin-full.png',
+    images: [
+      { src: '/images/projects/landing-vitamin-01.png' },
+      { src: '/images/projects/landing-vitamin-02.png' },
+      { src: '/images/projects/landing-vitamin-03.png' },
+      { src: '/images/projects/landing-vitamin-04.png' },
+      { src: '/images/projects/landing-vitamin-05.png' },
+      { src: '/images/projects/landing-vitamin-06.png' },
+      { src: '/images/projects/landing-vitamin-07.png' },
+      { src: '/images/projects/landing-vitamin-08.png' },
+      { src: '/images/projects/landing-vitamin-09.png' },
+      { src: '/images/projects/landing-vitamin-10.png' },
+    ],
     url: 'https://shdls1016-max.github.io/landing-vitamin/',
   },
   {
@@ -185,7 +198,21 @@ export const landingProjects: LandingProject[] = [
     flow: ['공감 메시지', '학습 부담 진단', '10분 루틴', '기존 공부 비교', '후기', 'FAQ와 신청'],
     ai: '콘텐츠 구조와 카피, 이미지, 코드 초안에 AI를 활용하고 화면 흐름과 전환 지점을 직접 조정했습니다.',
     duration: '약 4일',
-    image: '/images/projects/landing-english-full.png',
+    images: [
+      { src: '/images/projects/landing-english-01.png' },
+      { src: '/images/projects/landing-english-02.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-03.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-04.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-05.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-06.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-07.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-08.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-09.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-10.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-11.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-12.png', cropTop: 84 },
+      { src: '/images/projects/landing-english-13.png', cropTop: 487 },
+    ],
     url: 'https://shdls1016-max.github.io/landing-studyEng/',
   },
 ]

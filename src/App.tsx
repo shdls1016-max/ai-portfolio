@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import {
   ArrowDown,
@@ -383,12 +383,22 @@ function BrowserPreview({ project }: { project: LandingProject }) {
         <div className="browser-frame__bar">
           <span /><span /><span />
           <div>{project.url.replace('https://', '')}</div>
+          <small><MousePointer2 size={12} /> SCROLL</small>
         </div>
         <div className="browser-frame__scroll">
-          <img src={assetPath(project.image)} alt={`${project.title} 전체 랜딩페이지`} loading="lazy" />
+          <div className="browser-frame__stack">
+            {project.images.map((segment, index) => (
+              <div
+                className="browser-frame__segment"
+                key={segment.src}
+                style={{ '--segment-crop': `${-((segment.cropTop ?? 0) / 1280) * 100}%` } as CSSProperties}
+              >
+                <img src={assetPath(segment.src)} alt={index === 0 ? `${project.title} 전체 랜딩페이지` : ''} loading="lazy" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <p className="scroll-guide"><MousePointer2 size={15} /> 이미지 위에서 스크롤해 전체 페이지를 확인해 보세요.</p>
     </div>
   )
 }
