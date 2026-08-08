@@ -236,16 +236,16 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .landing-preview, .landing-copy { height: clamp(600px,70vh,660px); }
 .landing-preview { min-width: 0; display: flex; flex-direction: column; }
 .browser-frame { padding: 10px; border: 1px solid #d4dae2; border-radius: 20px; background: #e3e7ec; box-shadow: 0 30px 70px rgba(44,56,75,.16); }
-.landing-preview .browser-frame { min-height: 0; flex: 1; display: flex; flex-direction: column; box-shadow: none; }
+.landing-preview .browser-frame { min-height: 0; flex: 1; display: flex; flex-direction: column; overflow: hidden; box-shadow: none; }
 .browser-frame__bar { height: 38px; padding: 0 8px; display: flex; gap: 6px; align-items: center; }
 .browser-frame__bar > span { width: 8px; height: 8px; border-radius: 50%; background: #aeb6c1; }
 .browser-frame__bar div { width: 58%; margin-left: 12px; padding: 5px 10px; overflow: hidden; color: var(--color-text-tertiary); background: #f8f9fb; border-radius: 8px; font-size: 9px; white-space: nowrap; text-overflow: ellipsis; }
 .browser-frame__bar small { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding-right: 4px; color: var(--color-text-tertiary); font-size: 8px; font-weight: 700; letter-spacing: .08em; }
 .browser-frame__scroll, .detail-preview { height: min(64vh,640px); overflow-y: auto; overscroll-behavior: contain; background: #fff; border-radius: 11px; scrollbar-width: none; -ms-overflow-style: none; }
-.landing-preview .browser-frame__scroll { min-height: 0; height: auto; flex: 1; }
+.landing-preview .browser-frame__scroll { width: calc(100% + 14px); min-height: 0; height: auto; flex: 1; padding-right: 14px; }
 .browser-frame__scroll img, .detail-preview img { display: block; width: 100%; max-width: none; height: auto; }
-.browser-frame__segment { overflow: hidden; line-height: 0; }
-.browser-frame__segment img { margin-top: var(--segment-crop,0); }
+.browser-frame__segment { position: relative; overflow: hidden; line-height: 0; }
+.browser-frame__segment img { position: absolute; top: 0; left: 0; width: 100%; margin-top: var(--segment-crop,0); transform: scaleX(1.015); transform-origin: left center; }
 .scroll-guide { margin-top: 15px; display: flex; gap: 8px; align-items: center; justify-content: center; font-size: 12px; color: var(--color-text-tertiary); }
 .landing-copy { align-self: stretch; padding-top: 12px; overflow: visible; }
 .landing-copy h3, .detail-copy h3 { font-size: clamp(26px,3.1vw,40px); letter-spacing: -.035em; }
@@ -299,7 +299,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .contact-links span { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: .1em; color: #9ca3ad; }
 .contact-links span svg, .contact-links > * > svg { width: 17px; }
 .contact-links strong { font-size: 15px; font-weight: 500; }
-.contact-footer { grid-column: 1/-1; align-self: end; display: flex; justify-content: space-between; padding-top: 28px; border-top: 1px solid #4b515b; font-size: 11px; letter-spacing: .08em; color: #9299a4; }
+.contact-footer { grid-column: 1/-1; align-self: end; display: flex; justify-content: space-between; padding-top: 28px; font-size: 11px; letter-spacing: .08em; color: #9299a4; }
 .contact-footer button { display: flex; align-items: center; gap: 8px; color: inherit; background: transparent; font-size: inherit; letter-spacing: inherit; }
 
 @media (max-width: 1100px) {

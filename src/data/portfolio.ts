@@ -37,8 +37,8 @@ export type LandingProject = {
   ai: string
   duration: string
   // 긴 랜딩페이지는 캡처 조각을 위에서부터 순서대로 추가합니다.
-  // cropTop은 고정 헤더가 찍힌 조각에서 잘라낼 원본 픽셀 높이입니다.
-  images: Array<{ src: string; cropTop?: number; sourceWidth?: number }>
+  // cropTop/cropBottom은 고정 요소와 중복 구간을 잘라낼 원본 픽셀 높이입니다.
+  images: Array<{ src: string; cropTop?: number; cropBottom?: number; sourceWidth?: number; sourceHeight?: number }>
   url: string
 }
 
@@ -176,15 +176,15 @@ export const landingProjects: LandingProject[] = [
     ai: '기획, 카피, 이미지, 코드 제작 전반에 AI를 활용하고 브라우저에서 직접 검수했습니다.',
     duration: '약 3일',
     images: [
-      { src: '/images/projects/landing-vitamin-01.png', sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-02.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-03.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-04.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-05.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-06.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-07.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-08.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-vitamin-09.png', cropTop: 200, sourceWidth: 2200 },
+      { src: '/images/projects/landing-vitamin-01.png', cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-02.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-03.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-04.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-05.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-06.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-07.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-08.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-vitamin-09.png', cropTop: 110, cropBottom: 90, sourceWidth: 2200, sourceHeight: 900 },
     ],
     url: 'https://shdls1016-max.github.io/landing-vitamin/',
   },
@@ -198,21 +198,17 @@ export const landingProjects: LandingProject[] = [
     ai: '콘텐츠 구조와 카피, 이미지, 코드 초안에 AI를 활용하고 화면 흐름과 전환 지점을 직접 조정했습니다.',
     duration: '약 4일',
     images: [
-      { src: '/images/projects/landing-english-01.png', sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-02.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-03.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-04.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-05.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-06.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-07.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-08.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-09.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-10.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-11.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-12.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-13.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-14.png', cropTop: 200, sourceWidth: 2200 },
-      { src: '/images/projects/landing-english-15.png', cropTop: 200, sourceWidth: 2200 },
+      { src: '/images/projects/landing-english-01.png', sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-02.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-03.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-04.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-05.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-06.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-07.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-08.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-09.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-10.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
+      { src: '/images/projects/landing-english-11.png', cropTop: 200, sourceWidth: 2200, sourceHeight: 900 },
     ],
     url: 'https://shdls1016-max.github.io/landing-studyEng/',
   },

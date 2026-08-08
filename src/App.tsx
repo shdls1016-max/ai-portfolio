@@ -387,18 +387,29 @@ function BrowserPreview({ project }: { project: LandingProject }) {
         </div>
         <div className="browser-frame__scroll">
           <div className="browser-frame__stack">
-            {project.images.map((segment, index) => (
-              <div
-                className="browser-frame__segment"
-                key={segment.src}
-                style={{ '--segment-crop': `${-((segment.cropTop ?? 0) / (segment.sourceWidth ?? 1280)) * 100}%` } as CSSProperties}
-              >
-                <img src={assetPath(segment.src)} alt={index === 0 ? `${project.title} 전체 랜딩페이지` : ''} loading="lazy" />
-              </div>
-            ))}
+            {project.images.map((segment, index) => {
+              const sourceWidth = segment.sourceWidth ?? 1280
+              const sourceHeight = segment.sourceHeight ?? 900
+              const cropTop = segment.cropTop ?? 0
+              const cropBottom = segment.cropBottom ?? 0
+              const visibleHeight = sourceHeight - cropTop - cropBottom
+              return (
+                <div
+                  className="browser-frame__segment"
+                  key={segment.src}
+                  style={{
+                    '--segment-crop': `${-(cropTop / sourceWidth) * 100}%`,
+                    aspectRatio: `${sourceWidth} / ${visibleHeight}`,
+                  } as CSSProperties}
+                >
+                  <img src={assetPath(segment.src)} alt={index === 0 ? `${project.title} 전체 랜딩페이지` : ''} loading="lazy" />
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
+      <p className="scroll-guide"><MousePointer2 size={15} /> 이미지 위에서 스크롤해 전체 페이지를 확인해 보세요.</p>
     </div>
   )
 }
