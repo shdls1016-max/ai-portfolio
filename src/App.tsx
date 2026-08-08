@@ -34,6 +34,8 @@ import {
 
 gsap.registerPlugin(ScrollTrigger)
 
+const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+
 const sectionLinks = [
   ['about', 'About'],
   ['web-projects', 'Web'],
@@ -274,7 +276,7 @@ function WebProjects() {
         {webProjects.map((project, index) => (
           <article className="web-project-card" key={project.title}>
             <div className="web-project-card__visual">
-              <img src={project.image} alt={`${project.title} 웹사이트 메인 화면`} loading={index > 1 ? 'lazy' : 'eager'} />
+              <img src={assetPath(project.image)} alt={`${project.title} 웹사이트 메인 화면`} loading={index > 1 ? 'lazy' : 'eager'} />
               <div className="web-project-card__topline">
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <span>{project.type}</span>
@@ -304,12 +306,12 @@ function DeviceMockup({ game }: { game: (typeof games)[number] }) {
           <div className="journey-cover">
             <span className="journey-cloud journey-cloud--one" />
             <span className="journey-cloud journey-cloud--two" />
-            <img src={game.characterImage} alt="Crossing Journey 캐릭터" />
+            <img src={assetPath(game.characterImage ?? '')} alt="Crossing Journey 캐릭터" />
             <strong>Crossing Journey</strong>
             <span className="journey-play">PLAY</span>
           </div>
         ) : (
-          <img src={game.image} alt={`${game.title} 메인 화면`} loading="lazy" />
+          <img src={assetPath(game.image)} alt={`${game.title} 메인 화면`} loading="lazy" />
         )}
       </div>
     </div>
@@ -351,7 +353,7 @@ function BrowserPreview({ project }: { project: LandingProject }) {
           <div>{project.url.replace('https://', '')}</div>
         </div>
         <div className="browser-frame__scroll">
-          <img src={project.image} alt={`${project.title} 전체 랜딩페이지`} loading="lazy" />
+          <img src={assetPath(project.image)} alt={`${project.title} 전체 랜딩페이지`} loading="lazy" />
         </div>
       </div>
       <p className="scroll-guide"><MousePointer2 size={15} /> 이미지 위에서 스크롤해 전체 페이지를 확인해 보세요.</p>
@@ -424,12 +426,12 @@ function VisualGallery() {
       </div>
       <div className="marquee-row marquee-row--wide">
         <div className="marquee-track">
-          {wide.map((file, index) => <img key={`${file}-${index}`} src={`/images/banners/wide/${file}`} alt={index < wideBanners.length ? file.replace(/^[A-Z]\d+_|_600x250\.png$/g, '') : ''} loading="lazy" />)}
+          {wide.map((file, index) => <img key={`${file}-${index}`} src={assetPath(`/images/banners/wide/${file}`)} alt={index < wideBanners.length ? file.replace(/^[A-Z]\d+_|_600x250\.png$/g, '') : ''} loading="lazy" />)}
         </div>
       </div>
       <div className="marquee-row marquee-row--poster">
         <div className="marquee-track marquee-track--reverse">
-          {portrait.map((file, index) => <img key={`${file}-${index}`} src={`/images/banners/poster/${file}`} alt={index < posters.length ? file.replace(/^[A-Z]\d+_|_500x600\.png$/g, '') : ''} loading="lazy" />)}
+          {portrait.map((file, index) => <img key={`${file}-${index}`} src={assetPath(`/images/banners/poster/${file}`)} alt={index < posters.length ? file.replace(/^[A-Z]\d+_|_500x600\.png$/g, '') : ''} loading="lazy" />)}
         </div>
       </div>
     </section>
@@ -444,7 +446,7 @@ function CardNewsSection() {
         <div className="card-news-grid">
           {cardNews.map((item, index) => (
             <a className={`card-news-item reveal ${index === 0 ? 'card-news-item--large' : ''}`} key={item.title} href={cardNewsBlogUrl} target="_blank" rel="noreferrer">
-              <div className="card-news-item__image"><img src={item.image} alt={item.title} loading="lazy" /></div>
+              <div className="card-news-item__image"><img src={assetPath(item.image)} alt={item.title} loading="lazy" /></div>
               <div className="card-news-item__copy">
                 <span>DENTAL CONTENT</span>
                 <h3>{item.title}</h3>
@@ -464,7 +466,7 @@ function DetailSlide({ project }: { project: DetailProject }) {
     <article className="carousel-slide">
       <div className="detail-layout">
         <div>
-          <div className="detail-preview"><img src={project.image} alt={`${project.category} 전체 이미지`} loading="lazy" /></div>
+          <div className="detail-preview"><img src={assetPath(project.image)} alt={`${project.category} 전체 이미지`} loading="lazy" /></div>
           <p className="scroll-guide"><MousePointer2 size={15} /> 이미지 위에서 스크롤해 전체 페이지를 확인해 보세요.</p>
         </div>
         <div className="detail-copy">
