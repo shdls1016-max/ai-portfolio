@@ -205,7 +205,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .game-section:nth-child(2) { background: #fff; }
 .game-layout { display: grid; grid-template-columns: minmax(320px,.82fr) minmax(0,1.18fr); align-items: stretch; gap: clamp(70px,9vw,140px); }
 .game-section--reverse .game-visual { order: 2; }
-.game-section--reverse .game-copy { order: 1; }
+.game-section--reverse .game-copy { order: 1; padding-left: clamp(28px,4.5vw,72px); }
 .game-visual, .game-copy { height: clamp(600px,70vh,660px); }
 .game-visual { display: grid; place-items: center; }
 .game-copy { display: flex; flex-direction: column; justify-content: center; }
@@ -358,6 +358,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .project-info { position: fixed; inset: auto 12px 12px; width: auto; height: min(78vh,660px); border-radius: 10px; }
   .game-layout, .landing-layout, .detail-layout, .contact-layout { grid-template-columns: 1fr; }
   .game-section--reverse .game-visual, .game-section--reverse .game-copy { order: initial; }
+  .game-section--reverse .game-copy { padding-left: 0; }
   .game-visual, .game-copy { height: auto; min-height: auto; }
   .game-copy { max-width: 680px; }
   .device-mockup { width: min(84vw,320px); height: auto; }
