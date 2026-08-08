@@ -38,7 +38,7 @@ export type LandingProject = {
   duration: string
   // 긴 랜딩페이지는 캡처 조각을 위에서부터 순서대로 추가합니다.
   // cropTop은 고정 헤더가 찍힌 조각에서 잘라낼 원본 픽셀 높이입니다.
-  images: Array<{ src: string; cropTop?: number }>
+  images: Array<{ src: string; cropTop?: number; sourceWidth?: number }>
   url: string
 }
 
@@ -176,16 +176,14 @@ export const landingProjects: LandingProject[] = [
     ai: '기획, 카피, 이미지, 코드 제작 전반에 AI를 활용하고 브라우저에서 직접 검수했습니다.',
     duration: '약 3일',
     images: [
-      { src: '/images/projects/landing-vitamin-01.png' },
-      { src: '/images/projects/landing-vitamin-02.png' },
-      { src: '/images/projects/landing-vitamin-03.png' },
-      { src: '/images/projects/landing-vitamin-04.png' },
-      { src: '/images/projects/landing-vitamin-05.png' },
-      { src: '/images/projects/landing-vitamin-06.png' },
-      { src: '/images/projects/landing-vitamin-07.png' },
-      { src: '/images/projects/landing-vitamin-08.png' },
-      { src: '/images/projects/landing-vitamin-09.png' },
-      { src: '/images/projects/landing-vitamin-10.png' },
+      { src: '/images/projects/landing-vitamin-01.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-02.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-03.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-04.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-05.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-06.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-07.png', sourceWidth: 1600 },
+      { src: '/images/projects/landing-vitamin-08.png', cropTop: 667, sourceWidth: 1600 },
     ],
     url: 'https://shdls1016-max.github.io/landing-vitamin/',
   },

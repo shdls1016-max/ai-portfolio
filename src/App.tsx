@@ -391,7 +391,7 @@ function BrowserPreview({ project }: { project: LandingProject }) {
               <div
                 className="browser-frame__segment"
                 key={segment.src}
-                style={{ '--segment-crop': `${-((segment.cropTop ?? 0) / 1280) * 100}%` } as CSSProperties}
+                style={{ '--segment-crop': `${-((segment.cropTop ?? 0) / (segment.sourceWidth ?? 1280)) * 100}%` } as CSSProperties}
               >
                 <img src={assetPath(segment.src)} alt={index === 0 ? `${project.title} 전체 랜딩페이지` : ''} loading="lazy" />
               </div>
@@ -460,20 +460,44 @@ function LandingPages() {
 function VisualGallery() {
   const wide = useMemo(() => [...wideBanners, ...wideBanners], [])
   const portrait = useMemo(() => [...posters, ...posters], [])
+  const dragRef = useRef({ row: null as HTMLDivElement | null, startX: 0, scrollLeft: 0 })
+
+  const startMarqueeDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return
+    const row = event.currentTarget
+    dragRef.current = { row, startX: event.clientX, scrollLeft: row.scrollLeft }
+    row.setPointerCapture(event.pointerId)
+    row.classList.add('is-dragging')
+  }
+
+  const moveMarqueeDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const { row, startX, scrollLeft } = dragRef.current
+    if (row !== event.currentTarget) return
+    row.scrollLeft = scrollLeft - (event.clientX - startX)
+  }
+
+  const endMarqueeDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const row = dragRef.current.row
+    if (row !== event.currentTarget) return
+    if (row.hasPointerCapture(event.pointerId)) row.releasePointerCapture(event.pointerId)
+    row.classList.remove('is-dragging')
+    dragRef.current.row = null
+  }
+
   return (
     <section className="visual section section-snap" id="visual">
       <div className="section-inner visual-heading">
         <SectionHeading eyebrow="05 · AI VISUAL" title="분야에 맞는 분위기를 빠르게 탐색합니다." description="여행, 교육, 라이프스타일, 금융, 식품, 패션과 테크 분야의 AI 배너 및 포스터 작업입니다." />
-        <div className="pause-note"><Pause size={14} /> HOVER TO PAUSE</div>
+        <div className="pause-note"><Pause size={14} /> HOVER TO PAUSE · DRAG TO MOVE</div>
       </div>
-      <div className="marquee-row marquee-row--wide">
+      <div className="marquee-row marquee-row--wide" onPointerDown={startMarqueeDrag} onPointerMove={moveMarqueeDrag} onPointerUp={endMarqueeDrag} onPointerCancel={endMarqueeDrag}>
         <div className="marquee-track">
-          {wide.map((file, index) => <img key={`${file}-${index}`} src={assetPath(`/images/banners/wide/${file}`)} alt={index < wideBanners.length ? file.replace(/^[A-Z]\d+_|_600x250\.png$/g, '') : ''} loading="lazy" />)}
+          {wide.map((file, index) => <img key={`${file}-${index}`} src={assetPath(`/images/banners/wide/${file}`)} alt={index < wideBanners.length ? file.replace(/^[A-Z]\d+_|_600x250\.png$/g, '') : ''} loading="lazy" draggable="false" />)}
         </div>
       </div>
-      <div className="marquee-row marquee-row--poster">
+      <div className="marquee-row marquee-row--poster" onPointerDown={startMarqueeDrag} onPointerMove={moveMarqueeDrag} onPointerUp={endMarqueeDrag} onPointerCancel={endMarqueeDrag}>
         <div className="marquee-track marquee-track--reverse">
-          {portrait.map((file, index) => <img key={`${file}-${index}`} src={assetPath(`/images/banners/poster/${file}`)} alt={index < posters.length ? file.replace(/^[A-Z]\d+_|_500x600\.png$/g, '') : ''} loading="lazy" />)}
+          {portrait.map((file, index) => <img key={`${file}-${index}`} src={assetPath(`/images/banners/poster/${file}`)} alt={index < posters.length ? file.replace(/^[A-Z]\d+_|_500x600\.png$/g, '') : ''} loading="lazy" draggable="false" />)}
         </div>
       </div>
     </section>
@@ -486,17 +510,14 @@ function CardNewsSection() {
       <div className="section-inner">
         <SectionHeading eyebrow="06 · CARD NEWS" title="어려운 치과 정보를 쉽게 전달합니다." description="환자가 궁금해하는 주제를 명확한 제목과 친근한 비주얼로 구성한 치과 콘텐츠입니다." />
         <div className="card-news-grid">
-          {cardNews.map((item, index) => (
-            <a className={`card-news-item reveal ${index === 0 ? 'card-news-item--large' : ''}`} key={item.title} href={cardNewsBlogUrl} target="_blank" rel="noreferrer">
-              <div className="card-news-item__image"><img src={assetPath(item.image)} alt={item.title} loading="lazy" /></div>
-              <div className="card-news-item__copy">
-                <span>DENTAL CONTENT</span>
-                <h3>{item.title}</h3>
-                <p>{item.topic}</p>
-              </div>
-              <ArrowUpRight aria-hidden="true" />
+          {cardNews.map((item) => (
+            <a className="card-news-item reveal" key={item.title} href={cardNewsBlogUrl} target="_blank" rel="noreferrer" aria-label={`${item.title} 블로그에서 보기`}>
+              <img src={assetPath(item.image)} alt={item.title} loading="lazy" />
             </a>
           ))}
+        </div>
+        <div className="card-news-actions">
+          <a className="button button--dark" href={cardNewsBlogUrl} target="_blank" rel="noreferrer">블로그에서 전체 보기 <ArrowUpRight size={17} /></a>
         </div>
       </div>
     </section>
