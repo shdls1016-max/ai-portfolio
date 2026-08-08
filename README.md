@@ -1,4 +1,4 @@
-# 손혜인 포트폴리오
+# 포트폴리오
 
 AI로 가능성을 넓히고 디자인과 코드로 완성하는 **AI-Assisted Web & Visual Designer** 포트폴리오입니다.
 
