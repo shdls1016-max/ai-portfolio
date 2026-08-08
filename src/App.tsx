@@ -219,7 +219,9 @@ function ProjectInfo({ project, close }: { project: WebProject; close: () => voi
         event.currentTarget.scrollTop += event.deltaY
       }}
     >
-      <button className="icon-button project-info__close" onClick={close} aria-label="설명 닫기"><X /></button>
+      <div className="project-info__sticky">
+        <button className="icon-button project-info__close" onClick={close} aria-label="설명 닫기"><X /></button>
+      </div>
       <p className="project-info__type">{project.type}</p>
       <h3>{project.title}</h3>
       <dl>
@@ -339,20 +341,11 @@ function WebProjects() {
 function DeviceMockup({ game }: { game: (typeof games)[number] }) {
   return (
     <div className={`device-mockup device-mockup--${game.theme}`}>
-      <div className="device-mockup__bar"><span /><span /><span /></div>
+      <span className="device-mockup__speaker" aria-hidden="true" />
       <div className="device-mockup__screen">
-        {game.theme === 'journey' ? (
-          <div className="journey-cover">
-            <span className="journey-cloud journey-cloud--one" />
-            <span className="journey-cloud journey-cloud--two" />
-            <img src={assetPath(game.characterImage ?? '')} alt="Crossing Journey 캐릭터" />
-            <strong>Crossing Journey</strong>
-            <span className="journey-play">PLAY</span>
-          </div>
-        ) : (
-          <img src={assetPath(game.image)} alt={`${game.title} 메인 화면`} loading="lazy" />
-        )}
+        <img src={assetPath(game.image)} alt={`${game.title} 모바일 게임 화면`} loading="lazy" />
       </div>
+      <span className="device-mockup__home" aria-hidden="true" />
     </div>
   )
 }
@@ -385,7 +378,7 @@ function Games() {
 
 function BrowserPreview({ project }: { project: LandingProject }) {
   return (
-    <div>
+    <div className="landing-preview">
       <div className="browser-frame">
         <div className="browser-frame__bar">
           <span /><span /><span />
@@ -439,7 +432,7 @@ function LandingPages() {
     <section className="landing section section-snap" id="landing">
       <div className="section-inner">
         <div className="carousel-header">
-          <SectionHeading eyebrow="05 · LANDING PAGE" title="전환의 흐름을 설계합니다." description="제품의 차별점을 빠르게 이해시키고 다음 행동으로 자연스럽게 연결합니다." />
+          <SectionHeading eyebrow="04 · LANDING PAGE" title="전환의 흐름을 설계합니다." description="제품의 차별점을 빠르게 이해시키고 다음 행동으로 자연스럽게 연결합니다." />
           <div className="carousel-controls">
             <button className="icon-button" onClick={() => emblaApi?.scrollPrev()} aria-label="이전 랜딩페이지"><ArrowLeft /></button>
             <span>{String(selected + 1).padStart(2, '0')} / {String(landingProjects.length).padStart(2, '0')}</span>
@@ -460,7 +453,7 @@ function VisualGallery() {
   return (
     <section className="visual section section-snap" id="visual">
       <div className="section-inner visual-heading">
-        <SectionHeading eyebrow="06 · AI VISUAL" title="분야에 맞는 분위기를 빠르게 탐색합니다." description="여행, 교육, 라이프스타일, 금융, 식품, 패션과 테크 분야의 AI 배너 및 포스터 작업입니다." />
+        <SectionHeading eyebrow="05 · AI VISUAL" title="분야에 맞는 분위기를 빠르게 탐색합니다." description="여행, 교육, 라이프스타일, 금융, 식품, 패션과 테크 분야의 AI 배너 및 포스터 작업입니다." />
         <div className="pause-note"><Pause size={14} /> HOVER TO PAUSE</div>
       </div>
       <div className="marquee-row marquee-row--wide">
@@ -481,7 +474,7 @@ function CardNewsSection() {
   return (
     <section className="card-news section section-snap" id="card-news">
       <div className="section-inner">
-        <SectionHeading eyebrow="07 · CARD NEWS" title="어려운 치과 정보를 쉽게 전달합니다." description="환자가 궁금해하는 주제를 명확한 제목과 친근한 비주얼로 구성한 치과 콘텐츠입니다." />
+        <SectionHeading eyebrow="06 · CARD NEWS" title="어려운 치과 정보를 쉽게 전달합니다." description="환자가 궁금해하는 주제를 명확한 제목과 친근한 비주얼로 구성한 치과 콘텐츠입니다." />
         <div className="card-news-grid">
           {cardNews.map((item, index) => (
             <a className={`card-news-item reveal ${index === 0 ? 'card-news-item--large' : ''}`} key={item.title} href={cardNewsBlogUrl} target="_blank" rel="noreferrer">
@@ -546,7 +539,7 @@ function DetailPages() {
     <section className="detail section section-snap" id="detail">
       <div className="section-inner">
         <div className="carousel-header">
-          <SectionHeading eyebrow="08 · DETAIL PAGE" title="AI 결과를 목적에 맞게 완성합니다." description="빠른 전체 생성부터 AI 초안 보완, Figma 재설계까지 서로 다른 협업 방식을 담았습니다." />
+          <SectionHeading eyebrow="07 · DETAIL PAGE" title="AI 결과를 목적에 맞게 완성합니다." description="빠른 전체 생성부터 AI 초안 보완, Figma 재설계까지 서로 다른 협업 방식을 담았습니다." />
           <div className="carousel-controls">
             <button className="icon-button" onClick={() => emblaApi?.scrollPrev()} aria-label="이전 상세페이지"><ArrowLeft /></button>
             <span>{String(selected + 1).padStart(2, '0')} / {String(detailProjects.length).padStart(2, '0')}</span>
@@ -572,7 +565,7 @@ function Contact() {
     <section className="contact section section-snap" id="contact">
       <div className="section-inner contact-layout">
         <div className="contact-copy reveal">
-          <p className="section-eyebrow">09 · CONTACT</p>
+          <p className="section-eyebrow">08 · CONTACT</p>
           <h2>함께 만들 다음 결과물을<br />기다리고 있습니다.</h2>
           <p>도구는 빠르게 변하지만 목적을 이해하고 완성도를 판단하는 기준은 더 중요하다고 생각합니다.</p>
         </div>
