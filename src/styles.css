@@ -203,11 +203,11 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .game-section { overflow: hidden; }
 .game-section:nth-child(1) { background: var(--color-surface); }
 .game-section:nth-child(2) { background: #fff; }
-.game-layout { display: grid; grid-template-columns: minmax(320px,.82fr) minmax(0,1.18fr); align-items: stretch; gap: clamp(70px,9vw,140px); }
-.game-section--reverse .game-visual { order: 2; }
-.game-section--reverse .game-copy { order: 1; padding-left: clamp(28px,4.5vw,72px); }
+.game-layout { --game-edge-space: clamp(36px,5vw,76px); display: grid; grid-template-columns: minmax(320px,.82fr) minmax(0,1.18fr); align-items: stretch; gap: clamp(70px,9vw,140px); }
+.game-section--reverse .game-visual { order: 2; padding: 0 var(--game-edge-space) 0 0; place-items: center end; }
+.game-section--reverse .game-copy { order: 1; padding-left: var(--game-edge-space); }
 .game-visual, .game-copy { height: clamp(600px,70vh,660px); }
-.game-visual { display: grid; place-items: center; }
+.game-visual { display: grid; padding-left: var(--game-edge-space); place-items: center start; }
 .game-copy { display: flex; flex-direction: column; justify-content: center; }
 .device-mockup { position: relative; width: auto; height: 100%; max-height: 620px; aspect-ratio: 9/19; padding: 15px 12px; border: 1px solid rgba(178,187,199,.72); border-radius: 52px; background: linear-gradient(145deg,#fff 0%,#edf0f4 48%,#d9dee5 100%); box-shadow: -18px -15px 35px rgba(255,255,255,.9), 26px 34px 70px rgba(55,67,84,.2), inset 1px 1px 3px rgba(255,255,255,.95), inset -3px -3px 8px rgba(114,127,144,.18); }
 .device-mockup::before { content: ''; position: absolute; top: 136px; right: -5px; width: 5px; height: 72px; border-radius: 0 5px 5px 0; background: #d7dce3; box-shadow: 1px 2px 4px rgba(55,67,84,.15); }
@@ -359,6 +359,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .game-layout, .landing-layout, .detail-layout, .contact-layout { grid-template-columns: 1fr; }
   .game-section--reverse .game-visual, .game-section--reverse .game-copy { order: initial; }
   .game-section--reverse .game-copy { padding-left: 0; }
+  .game-visual, .game-section--reverse .game-visual { padding: 0; place-items: center; }
   .game-visual, .game-copy { height: auto; min-height: auto; }
   .game-copy { max-width: 680px; }
   .device-mockup { width: min(84vw,320px); height: auto; }
