@@ -210,7 +210,15 @@ function About() {
 
 function ProjectInfo({ project, close }: { project: WebProject; close: () => void }) {
   return (
-    <aside className="project-info" aria-label={`${project.title} 프로젝트 설명`}>
+    <aside
+      className="project-info"
+      aria-label={`${project.title} 프로젝트 설명`}
+      onWheel={(event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        event.currentTarget.scrollTop += event.deltaY
+      }}
+    >
       <button className="icon-button project-info__close" onClick={close} aria-label="설명 닫기"><X /></button>
       <p className="project-info__type">{project.type}</p>
       <h3>{project.title}</h3>
@@ -245,8 +253,10 @@ function WebProjects() {
     // 양 끝에서는 이벤트를 막지 않아 페이지의 세로 스크롤이 자연스럽게 이어집니다.
     const handleWheel = (event: WheelEvent) => {
       if (!window.matchMedia('(min-width: 1024px)').matches) return
+      if ((event.target as HTMLElement).closest('.project-info')) return
 
       const movement = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+      if (movement === 0) return
       const maxScroll = track.scrollWidth - track.clientWidth
       const atStart = track.scrollLeft <= 1
       const atEnd = track.scrollLeft >= maxScroll - 1
@@ -254,7 +264,8 @@ function WebProjects() {
 
       if (!shouldMoveInside) return
       event.preventDefault()
-      track.scrollLeft += movement * 1.15
+      const step = Math.sign(movement) * Math.min(Math.abs(movement), 96)
+      track.scrollLeft = Math.min(maxScroll, Math.max(0, track.scrollLeft + step))
     }
 
     track.addEventListener('wheel', handleWheel, { passive: false })
@@ -262,7 +273,7 @@ function WebProjects() {
   }, [])
 
   const startDrag = (event: PointerEvent<HTMLDivElement>) => {
-    if ((event.target as HTMLElement).closest('button, a')) return
+    if ((event.target as HTMLElement).closest('button, a, .project-info')) return
     const track = trackRef.current
     if (!track) return
     dragRef.current = { active: true, startX: event.clientX, scrollLeft: track.scrollLeft }
@@ -306,7 +317,6 @@ function WebProjects() {
               <img src={assetPath(project.image)} alt={`${project.title} 웹사이트 메인 화면`} loading={index > 1 ? 'lazy' : 'eager'} draggable="false" />
               <div className="web-project-card__topline">
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <span>{project.type}</span>
               </div>
               <button className="project-detail-button" onClick={() => setSelected(index)}>
                 프로젝트 정보 <ArrowRight size={15} />
@@ -314,6 +324,7 @@ function WebProjects() {
             </div>
             <div className="web-project-card__caption">
               <h3>{project.title}</h3>
+              <p className="web-project-card__type">{project.type}</p>
               <p>{project.purpose}</p>
             </div>
             {selected === index && <ProjectInfo project={project} close={() => setSelected(null)} />}

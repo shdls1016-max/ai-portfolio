@@ -90,7 +90,7 @@ export const webProjects: WebProject[] = [
     colors: ['#111111', '#666666', '#FAFAFA'],
     skills: ['HTML5', 'Cafe24', 'BEM CSS', 'JavaScript', 'Swiper'],
     ai: '브랜드 콘셉트와 콘텐츠 구조, 이미지 생성, 코드 작성 및 반복 검수에 AI를 활용했습니다.',
-    image: '/images/projects/fashion-store.png',
+    image: '/images/projects/fashion-store.jpg',
     url: 'https://shdls1016-max.github.io/-fashion-store/index.html',
   },
   {
@@ -103,7 +103,7 @@ export const webProjects: WebProject[] = [
     colors: ['#F55D73', '#FFFFFF', '#2B2B2B'],
     skills: ['HTML5', 'CSS3', 'JavaScript', 'Swiper', 'Cafe24'],
     ai: '콘셉트, 카피, 이미지와 코드 초안을 빠르게 만들고 직접 화면을 검수하며 수정했습니다.',
-    image: '/images/projects/makeup-store.png',
+    image: '/images/projects/makeup-store.jpg',
     url: 'https://shdls1016-max.github.io/makeup/index.html',
   },
   {
@@ -116,7 +116,7 @@ export const webProjects: WebProject[] = [
     colors: ['#9A86E8', '#FFFFFF', '#2F2F33'],
     skills: ['HTML5', 'CSS3', 'JavaScript', 'Swiper', 'IntersectionObserver'],
     ai: '타깃과 무드에 맞는 섹션 구성, 카피, 이미지 생성과 코드 구현에 AI를 활용했습니다.',
-    image: '/images/projects/interior-store.png',
+    image: '/images/projects/interior-store.jpg',
     url: 'https://shdls1016-max.github.io/Interior/01_pompom_room_shop/',
   },
   {
@@ -129,7 +129,7 @@ export const webProjects: WebProject[] = [
     colors: ['#2456D8', '#FFFFFF', '#ECEFF3'],
     skills: ['HTML5', 'CSS3', 'JavaScript', 'Swiper', 'GitHub Pages'],
     ai: '콘텐츠 구조 분석부터 카피, 이미지 생성, 코드 작성과 브라우저별 검수까지 AI와 협업했습니다.',
-    image: '/images/projects/furniture-store.png',
+    image: '/images/projects/furniture-store.jpg',
     url: 'https://shdls1016-max.github.io/furniture/',
   },
 ]
