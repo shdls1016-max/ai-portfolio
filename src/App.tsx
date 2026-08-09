@@ -199,7 +199,12 @@ function About() {
           </div>
           <div className="skill-marquee" aria-label="사용 기술">
             <div className="skill-marquee__track">
-              {[...skills, ...skills].map((skill, index) => <span key={`${skill}-${index}`}>{skill}</span>)}
+              <div className="skill-marquee__group">
+                {skills.map((skill) => <span key={skill}>{skill}</span>)}
+              </div>
+              <div className="skill-marquee__group" aria-hidden="true">
+                {skills.map((skill) => <span key={skill}>{skill}</span>)}
+              </div>
             </div>
           </div>
         </div>
