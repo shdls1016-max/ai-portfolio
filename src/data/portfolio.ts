@@ -61,11 +61,11 @@ export type DetailProject = {
 }
 
 export const aiTools = [
-  { name: 'Ideogram', role: '이미지 생성', index: '01' },
-  { name: 'Midjourney', role: '짧은 영상 생성', index: '02' },
-  { name: 'Codex', role: '전체 작업 · 코드 · 이미지 생성', index: '03' },
-  { name: 'Gemini', role: '기획 및 아이디어 정리', index: '04' },
-  { name: 'Claude', role: '코드 생성 및 수정', index: '05' },
+  { name: 'Ideogram', role: '이미지 생성' },
+  { name: 'Midjourney', role: '짧은 영상 생성' },
+  { name: 'Codex', role: '전체 작업 · 코드 · 이미지 생성' },
+  { name: 'Gemini', role: '기획 및 아이디어 정리' },
+  { name: 'Claude', role: '코드 생성 및 수정' },
 ]
 
 export const skills = [

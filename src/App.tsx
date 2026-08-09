@@ -190,7 +190,6 @@ function About() {
           <div className="ai-tool-list">
             {aiTools.map((tool) => (
               <div className="ai-tool reveal" key={tool.name}>
-                <span>{tool.index}</span>
                 <strong>{tool.name}</strong>
                 <p>{tool.role}</p>
                 <ChevronRight aria-hidden="true" />

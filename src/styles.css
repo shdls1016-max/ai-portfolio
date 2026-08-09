@@ -143,17 +143,16 @@ ul { list-style: none; }
 .process-card > span { display: block; margin-bottom: 72px; font-size: 12px; font-weight: 700; color: var(--color-accent); }
 .process-card h3 { font-size: 18px; line-height: 1.5; }
 .process-card p { margin-top: 14px; font-size: 14px; line-height: 1.7; color: var(--color-text-tertiary); }
-.tool-area { margin-top: 120px; }
+.tool-area { min-height: calc(100svh - var(--header-height)); margin-top: 120px; display: flex; flex-direction: column; }
 .tool-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; padding-bottom: 22px; border-bottom: 1px solid var(--color-text-primary); }
 .tool-heading p { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--color-accent); }
 .tool-heading h3 { font-size: var(--font-lead); }
-.ai-tool { min-height: 76px; display: grid; grid-template-columns: 60px 1fr 1.5fr 24px; align-items: center; gap: 18px; border-bottom: 1px solid var(--color-line); transition: padding .25s, background-color .25s; }
+.ai-tool { min-height: 76px; display: grid; grid-template-columns: 1fr 1.5fr 24px; align-items: center; gap: 18px; border-bottom: 1px solid var(--color-line); transition: padding .25s, background-color .25s; }
 .ai-tool:hover { padding: 0 14px; background: #fff; }
-.ai-tool > span { font-size: 12px; color: var(--color-text-tertiary); }
 .ai-tool strong { font-size: 17px; }
 .ai-tool p { font-size: 14px; color: var(--color-text-secondary); }
 .ai-tool svg { width: 17px; color: var(--color-accent); }
-.skill-marquee { margin-top: 70px; overflow: hidden; border-block: 1px solid var(--color-line); }
+.skill-marquee { margin-top: auto; overflow: hidden; border-block: 1px solid var(--color-line); }
 .skill-marquee__track { width: max-content; display: flex; animation: marquee 24s linear infinite; }
 .skill-marquee__group { width: 100vw; flex: 0 0 100vw; padding: 20px 32px; display: flex; align-items: center; justify-content: space-around; gap: 56px; }
 .skill-marquee__track span { flex: none; font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--color-text-tertiary); }
