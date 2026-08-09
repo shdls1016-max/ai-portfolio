@@ -340,12 +340,14 @@ function WebProjects() {
 
 function DeviceMockup({ game }: { game: (typeof games)[number] }) {
   return (
-    <div className={`device-mockup device-mockup--${game.theme}`}>
-      <span className="device-mockup__speaker" aria-hidden="true" />
-      <div className="device-mockup__screen">
-        <img src={assetPath(game.image)} alt={`${game.title} 모바일 게임 화면`} loading="lazy" />
+    <div className="device-mockup-stage">
+      <div className={`device-mockup device-mockup--${game.theme}`}>
+        <span className="device-mockup__speaker" aria-hidden="true" />
+        <div className="device-mockup__screen">
+          <img src={assetPath(game.image)} alt={`${game.title} 모바일 게임 화면`} loading="lazy" />
+        </div>
+        <span className="device-mockup__home" aria-hidden="true" />
       </div>
-      <span className="device-mockup__home" aria-hidden="true" />
     </div>
   )
 }
