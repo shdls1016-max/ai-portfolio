@@ -235,7 +235,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .landing-layout, .detail-layout { display: grid; grid-template-columns: minmax(0,.88fr) minmax(0,1.12fr); align-items: start; gap: clamp(56px,8vw,120px); }
 .landing-layout { min-height: 620px; align-items: stretch; }
 .landing-preview, .landing-copy { height: clamp(600px,70vh,660px); }
-.landing-preview { min-width: 0; display: flex; flex-direction: column; }
+.landing-preview { min-width: 0; display: flex; flex-direction: column; container-type: inline-size; }
 .browser-frame { padding: 10px; border: 1px solid #d4dae2; border-radius: 20px; background: #e3e7ec; box-shadow: 0 30px 70px rgba(44,56,75,.16); }
 .landing-preview .browser-frame { min-height: 0; flex: 1; display: flex; flex-direction: column; overflow: hidden; box-shadow: none; }
 .browser-frame__bar { height: 38px; padding: 0 8px; display: flex; gap: 6px; align-items: center; }
@@ -357,7 +357,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .project-viewport { width: calc(100% - 18px); margin-left: 18px; clip-path: none; contain: none; }
   .web-project-card:last-child { margin-right: 42px; }
   .web-project-card { flex-basis: 87vw; }
-  .project-info { position: fixed; z-index: 100; inset: 0 12px auto; width: auto; height: min(78dvh,660px); max-height: none; border-radius: 10px; }
+  .project-info { position: fixed; z-index: 100; inset: 0 12px auto auto; width: auto; max-width: 95vw; height: min(660px,95dvh); aspect-ratio: 43/66; border-radius: 10px; }
   .game-layout, .landing-layout, .detail-layout, .contact-layout { grid-template-columns: 1fr; }
   .game-section--reverse .game-visual, .game-section--reverse .game-copy { order: initial; }
   .game-section--reverse .game-copy { padding-left: 0; }
@@ -400,6 +400,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .carousel-header { display: grid; }
   .carousel-controls { justify-self: end; }
   .landing-layout, .detail-layout { gap: 36px; }
+  .landing-preview .browser-frame { height: min(125cqw,70svh); }
   .browser-frame__scroll, .detail-preview { height: 52vh; }
   .landing-copy dl div, .detail-copy dl div, .game-copy dl div, .project-info dl div { grid-template-columns: 1fr; gap: 5px; }
   .detail-subsection ul { grid-template-columns: repeat(2,minmax(0,1fr)); }
@@ -412,6 +413,10 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .contact-links a, .contact-links button { grid-template-columns: 1fr 24px; min-height: 82px; }
   .contact-links strong { grid-column: 1; grid-row: 2; margin-top: -24px; }
   .contact-links > * > svg { grid-column: 2; grid-row: 1/3; }
+}
+
+@media (max-width: 480px) {
+  .project-info { inset: 0; width: 100vw; max-width: none; height: 100dvh; max-height: none; aspect-ratio: auto; border-radius: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
