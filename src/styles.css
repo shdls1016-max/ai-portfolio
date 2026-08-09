@@ -209,11 +209,11 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .game-visual, .game-copy { height: clamp(600px,70vh,660px); }
 .game-visual { display: grid; padding-left: var(--game-edge-space); place-items: center start; }
 .game-copy { display: flex; flex-direction: column; justify-content: center; }
-.device-mockup { position: relative; width: auto; height: 100%; max-height: 620px; aspect-ratio: 9/19; padding: 15px 12px; border: 1px solid rgba(178,187,199,.72); border-radius: 52px; background: linear-gradient(145deg,#fff 0%,#edf0f4 48%,#d9dee5 100%); box-shadow: -18px -15px 35px rgba(255,255,255,.9), 26px 34px 70px rgba(55,67,84,.2), inset 1px 1px 3px rgba(255,255,255,.95), inset -3px -3px 8px rgba(114,127,144,.18); }
-.device-mockup::before { content: ''; position: absolute; top: 136px; right: -5px; width: 5px; height: 72px; border-radius: 0 5px 5px 0; background: #d7dce3; box-shadow: 1px 2px 4px rgba(55,67,84,.15); }
-.device-mockup__speaker { position: absolute; z-index: 2; top: 8px; left: 50%; width: 54px; height: 5px; border-radius: 999px; background: #c3cad3; box-shadow: inset 0 1px 2px rgba(72,83,98,.18); transform: translateX(-50%); }
-.device-mockup__home { position: absolute; z-index: 2; bottom: 6px; left: 50%; width: 66px; height: 4px; border-radius: 999px; background: #c3cad3; transform: translateX(-50%); }
-.device-mockup__screen { width: 100%; height: 100%; overflow: hidden; background: #fff; border: 1px solid rgba(174,184,196,.55); border-radius: 39px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.72); }
+.device-mockup { position: relative; width: auto; height: 100%; max-height: 620px; aspect-ratio: 9/19; padding: 5.1% 4.1%; border: 1px solid rgba(178,187,199,.72); border-radius: 18% / 8.4%; background: linear-gradient(145deg,#fff 0%,#edf0f4 48%,#d9dee5 100%); box-shadow: -18px -15px 35px rgba(255,255,255,.9), 26px 34px 70px rgba(55,67,84,.2), inset 1px 1px 3px rgba(255,255,255,.95), inset -3px -3px 8px rgba(114,127,144,.18); }
+.device-mockup::before { content: ''; position: absolute; top: 22%; right: -1.7%; width: 1.7%; height: 11.6%; border-radius: 0 999px 999px 0; background: #d7dce3; box-shadow: 1px 2px 4px rgba(55,67,84,.15); }
+.device-mockup__speaker { position: absolute; z-index: 2; top: 1.3%; left: 50%; width: 18.4%; height: .8%; min-height: 2px; border-radius: 999px; background: #c3cad3; box-shadow: inset 0 1px 2px rgba(72,83,98,.18); transform: translateX(-50%); }
+.device-mockup__home { position: absolute; z-index: 2; bottom: 1%; left: 50%; width: 22.5%; height: .65%; min-height: 2px; border-radius: 999px; background: #c3cad3; transform: translateX(-50%); }
+.device-mockup__screen { width: 100%; height: 100%; overflow: hidden; background: #fff; border: 1px solid rgba(174,184,196,.55); border-radius: 15% / 6.5%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.72); }
 .device-mockup__screen > img { width: 100%; height: 100%; object-fit: cover; }
 .game-copy h2 { margin-bottom: 18px; }
 .game-description { font-size: var(--font-lead); line-height: 1.7; }
@@ -242,7 +242,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .browser-frame__bar div { width: 58%; margin-left: 12px; padding: 5px 10px; overflow: hidden; color: var(--color-text-tertiary); background: #f8f9fb; border-radius: 8px; font-size: 9px; white-space: nowrap; text-overflow: ellipsis; }
 .browser-frame__bar small { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding-right: 4px; color: var(--color-text-tertiary); font-size: 8px; font-weight: 700; letter-spacing: .08em; }
 .browser-frame__scroll, .detail-preview { height: min(64vh,640px); overflow-y: auto; overscroll-behavior: contain; background: #fff; border-radius: 11px; scrollbar-width: none; -ms-overflow-style: none; }
-.landing-preview .browser-frame__scroll { width: calc(100% + 14px); min-height: 0; height: auto; flex: 1; padding-right: 14px; }
+.landing-preview .browser-frame__scroll { width: 100%; min-height: 0; height: auto; flex: 1; }
 .browser-frame__scroll img, .detail-preview img { display: block; width: 100%; max-width: none; height: auto; }
 .browser-frame__segment { position: relative; overflow: hidden; line-height: 0; }
 .browser-frame__segment img { position: absolute; top: 0; left: 0; width: 100%; margin-top: var(--segment-crop,0); transform: scaleX(1.015); transform-origin: left center; }
@@ -353,10 +353,10 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .ai-tool p { grid-column: 2/3; margin-top: -22px; }
   .ai-tool svg { grid-column: 3; grid-row: 1/3; }
   .web-projects { padding: 104px 0; }
-  .project-viewport { width: calc(100% - 18px); margin-left: 18px; }
+  .project-viewport { width: calc(100% - 18px); margin-left: 18px; clip-path: none; contain: none; }
   .web-project-card:last-child { margin-right: 42px; }
   .web-project-card { flex-basis: 87vw; }
-  .project-info { position: fixed; inset: auto 12px 12px; width: auto; height: min(78vh,660px); border-radius: 10px; }
+  .project-info { position: fixed; z-index: 100; inset: 0 12px auto; width: auto; height: 100dvh; max-height: 100dvh; border-radius: 0 0 10px 10px; }
   .game-layout, .landing-layout, .detail-layout, .contact-layout { grid-template-columns: 1fr; }
   .game-section--reverse .game-visual, .game-section--reverse .game-copy { order: initial; }
   .game-section--reverse .game-copy { padding-left: 0; }
@@ -395,8 +395,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .web-project-card__caption p { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .web-project-card__topline span:last-child { display: none; }
   .game-layout { gap: 44px; }
-  .device-mockup { width: auto; height: min(54svh,440px); max-height: 440px; padding: 11px 9px; border-radius: 38px; }
-  .device-mockup__screen { border-radius: 29px; }
+  .device-mockup { width: auto; height: min(54svh,440px); max-height: 440px; }
   .carousel-header { display: grid; }
   .carousel-controls { justify-self: end; }
   .landing-layout, .detail-layout { gap: 36px; }
