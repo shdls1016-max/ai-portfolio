@@ -372,7 +372,8 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .landing-layout { min-height: 0; }
   .landing-preview, .landing-copy { height: auto; }
   .landing-preview .browser-frame { height: 62vh; flex: none; }
-  .browser-frame__scroll, .detail-preview { height: 58vh; }
+  .browser-frame__scroll { height: 58vh; }
+  .detail-preview { height: min(64svh,600px); flex: none; overflow-y: auto; touch-action: pan-y; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; }
   .card-news-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
   .contact-layout { min-height: auto; }
   .contact-footer { grid-column: auto; }
@@ -402,7 +403,8 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .carousel-controls { justify-self: end; }
   .landing-layout, .detail-layout { gap: 36px; }
   .landing-preview .browser-frame { height: min(125cqw,70svh); }
-  .browser-frame__scroll, .detail-preview { height: 52vh; }
+  .browser-frame__scroll { height: 52vh; }
+  .detail-preview { height: min(64svh,600px); }
   .landing-copy dl div, .detail-copy dl div, .game-copy dl div, .project-info dl div { grid-template-columns: 1fr; gap: 5px; }
   .detail-subsection ul { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .visual-heading { display: block; }

@@ -262,6 +262,7 @@ function WebProjects() {
       overflow: document.body.style.overflow,
     }
     const previousHtmlOverflow = document.documentElement.style.overflow
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior
 
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
@@ -275,7 +276,11 @@ function WebProjects() {
       document.body.style.top = previousBodyStyles.top
       document.body.style.width = previousBodyStyles.width
       document.body.style.overflow = previousBodyStyles.overflow
+      document.documentElement.style.scrollBehavior = 'auto'
       window.scrollTo(0, scrollY)
+      window.requestAnimationFrame(() => {
+        document.documentElement.style.scrollBehavior = previousScrollBehavior
+      })
     }
   }, [selected])
 
