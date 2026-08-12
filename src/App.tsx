@@ -6,7 +6,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  ChevronRight,
   Copy,
   Mail,
   Menu,
@@ -31,6 +30,7 @@ import {
 } from './data/portfolio'
 
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+const heroPhrases = ['요구를 이해하고', '방향을 설계하고', '아이디어를 전개하고', '결과를 완성합니다']
 
 const sectionLinks = [
   ['about', 'About'],
@@ -77,61 +77,69 @@ function Header() {
 }
 
 function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
+  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [noteOffsets, setNoteOffsets] = useState<Record<string, { x: number; y: number }>>({})
+  const noteDrag = useRef<{ id: string; x: number; y: number; startX: number; startY: number } | null>(null)
 
   useEffect(() => {
-    const timer = window.setTimeout(() => heroRef.current?.classList.add('hero--complete'), 4400)
-    return () => window.clearTimeout(timer)
+    const timer = window.setInterval(() => setPhraseIndex((index) => (index + 1) % heroPhrases.length), 2400)
+    return () => window.clearInterval(timer)
   }, [])
 
+  const startNoteDrag = (event: PointerEvent<HTMLDivElement>, id: string) => {
+    if (event.pointerType === 'touch') return
+    const current = noteOffsets[id] ?? { x: 0, y: 0 }
+    noteDrag.current = { id, x: current.x, y: current.y, startX: event.clientX, startY: event.clientY }
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const moveNote = (event: PointerEvent<HTMLDivElement>) => {
+    if (!noteDrag.current) return
+    const drag = noteDrag.current
+    setNoteOffsets((offsets) => ({
+      ...offsets,
+      [drag.id]: { x: drag.x + event.clientX - drag.startX, y: drag.y + event.clientY - drag.startY },
+    }))
+  }
+
+  const stopNoteDrag = () => { noteDrag.current = null }
+
+  const notes = [
+    { id: 'brief', label: '01 / BRIEF', title: '요구를 읽는 일', className: 'hero-note--brief' },
+    { id: 'visual', label: '02 / VISUAL', title: '기준을 세우는 일', className: 'hero-note--visual' },
+    { id: 'build', label: '03 / BUILD', title: '끝까지 다듬는 일', className: 'hero-note--build' },
+  ]
+
   return (
-    <section className="hero section-snap" id="top" ref={heroRef} aria-labelledby="hero-title">
-      <div className="hero-grid" aria-hidden="true" />
+    <section className="hero section-snap" id="top" aria-labelledby="hero-title">
+      <div className="hero-flicker-grid" aria-hidden="true">
+        {Array.from({ length: 70 }, (_, index) => <span key={index} style={{ '--cell-delay': `${(index * 0.17) % 4.8}s` } as CSSProperties} />)}
+      </div>
       <div className="hero-meta hero-meta--top">
         <span>PORTFOLIO 2026</span>
-        <span>SEOUL · KOREA</span>
+        <span>WEB &amp; VISUAL DESIGN</span>
       </div>
 
       <div className="hero-stage">
-        <div className="prompt-window" aria-label="AI 프롬프트가 결과물로 변환되는 애니메이션">
-          <div className="prompt-bar">
-            <span className="prompt-dot" />
-            <span className="prompt-label">AI WORKSPACE</span>
-            <span className="prompt-status">GENERATING</span>
-          </div>
-          <div className="prompt-body">
-            <span className="prompt-symbol">›</span>
-            <p className="prompt-typing">아이디어를 유용하고 매력적인 결과물로 만들어 주세요.</p>
-            <span className="prompt-cursor" />
-          </div>
-          <div className="prompt-progress"><span /></div>
-        </div>
-
-        <div className="assembly" aria-hidden="true">
-          <span className="assembly-chip assembly-chip--idea">IDEA</span>
-          <span className="assembly-chip assembly-chip--image">IMAGE</span>
-          <span className="assembly-chip assembly-chip--code">CODE</span>
-          <span className="assembly-line assembly-line--one" />
-          <span className="assembly-line assembly-line--two" />
-          <div className="assembly-frame">
-            <span className="assembly-frame__nav" />
-            <span className="assembly-frame__copy" />
-            <span className="assembly-frame__copy assembly-frame__copy--short" />
-            <span className="assembly-frame__button" />
-            <span className="assembly-frame__visual" />
-          </div>
-        </div>
-
         <div className="hero-copy">
-          <p className="hero-kicker">AI-ASSISTED WEB &amp; VISUAL DESIGNER</p>
-          <h1 id="hero-title">
-            AI로 가능성을 넓히고,<br />
-            <span>디자인과 코드로 완성합니다.</span>
-          </h1>
-          <p className="hero-lead">
-            문제를 이해하고, AI로 아이디어를 확장한 뒤<br className="desktop-only" />
-            직접 판단하고 다듬어 목적에 맞는 결과물을 만듭니다.
-          </p>
+          <p className="hero-kicker">SON HYEIN · WEB &amp; VISUAL DESIGNER</p>
+          <h1 id="hero-title">생각을 정리하고,<br /><span>화면으로 완성합니다.</span></h1>
+          <div className="hero-morph" aria-live="polite"><span key={phraseIndex}>{heroPhrases[phraseIndex]}</span></div>
+          <p className="hero-lead">AI로 선택지를 넓히되, 무엇을 남기고 어떻게 보여줄지는 직접 판단합니다.</p>
+        </div>
+
+        <div className="hero-notes" aria-label="작업 방식 키워드">
+          {notes.map((note) => (
+            <div
+              className={`hero-note ${note.className}`}
+              key={note.id}
+              style={{ '--note-x': `${noteOffsets[note.id]?.x ?? 0}px`, '--note-y': `${noteOffsets[note.id]?.y ?? 0}px` } as CSSProperties}
+              onPointerDown={(event) => startNoteDrag(event, note.id)}
+              onPointerMove={moveNote}
+              onPointerUp={stopNoteDrag}
+              onPointerCancel={stopNoteDrag}
+            ><span>{note.label}</span><strong>{note.title}</strong></div>
+          ))}
         </div>
       </div>
 
@@ -157,42 +165,45 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 
 function About() {
   const process = [
-    ['01', '문제와 목적 파악', '무엇을 누구에게 전달해야 하는지 먼저 정리합니다.'],
-    ['02', 'AI를 이용한 아이디어 및 시안 확장', '여러 도구를 목적에 맞게 조합해 가능성을 빠르게 넓힙니다.'],
-    ['03', '디자인 판단 후 필요한 부분 수정', '정보의 우선순위와 화면의 완성도를 직접 판단하고 다듬습니다.'],
-    ['04', '최종 결과물 완성', '디자인과 코드를 연결해 실제로 사용할 수 있는 결과물로 만듭니다.'],
+    ['UNDERSTAND', '요구 이해', '클라이언트의 요구와 전달할 메시지를 파악해 작업의 기준을 정합니다.'],
+    ['DESIGN', '방향 설계', '대상과 매체에 맞춰 콘텐츠 구조와 시각적 기준을 세웁니다.'],
+    ['DEVELOP', '아이디어 전개', '설정한 방향을 바탕으로 AI를 활용해 다양한 아이디어를 시안으로 발전시킵니다.'],
+    ['REFINE', '선택과 완성', '적합한 안을 직접 선택하고 디자인과 코드를 다듬어 실제 결과물로 완성합니다.'],
   ]
 
   return (
     <section className="about section section-snap" id="about">
-      <div className="section-inner">
-        <SectionHeading
-          eyebrow="01 · ABOUT & PROCESS"
-          title="AI를 도구로, 판단을 기준으로"
-          description="새로운 도구를 빠르게 익히고 목적에 맞게 조합합니다. 생성된 결과를 그대로 사용하는 대신 직접 비교하고 수정해 완성도를 높입니다."
-        />
+      <div className="section-inner about-inner">
+        <div className="about-intro">
+          <p className="section-eyebrow">01 · APPROACH</p>
+          <h2>도구보다 먼저<br />방향을 생각합니다.</h2>
+          <div className="about-intro__copy">
+            <p>빠르게 만드는 것보다 무엇을, 누구에게, 어떤 방식으로 전달할지 먼저 정리합니다.</p>
+            <p>AI는 아이디어와 제작 범위를 넓히는 도구로 활용하고, 최종 선택과 수정은 직접 수행합니다.</p>
+          </div>
+        </div>
 
-        <div className="process-grid">
-          {process.map(([number, title, copy]) => (
-            <article className="process-card reveal" key={number}>
-              <span>{number}</span>
+        <div className="process-list">
+          {process.map(([label, title, copy], index) => (
+            <article className="process-step reveal" key={label}>
+              <span className="process-step__index">{String(index + 1).padStart(2, '0')}</span>
+              <span className="process-step__label">{label}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
             </article>
           ))}
         </div>
 
-        <div className="tool-area">
+        <div className="tool-area about-tools">
           <div className="tool-heading reveal">
-            <p>AI TOOLS</p>
-            <h3>목적에 따라 다르게 활용합니다.</h3>
+            <div><p>AI TOOLKIT</p><h3>필요한 역할에 맞춰 선택합니다.</h3></div>
+            <p className="tool-heading__note">생성 자체보다 조합과 수정에 집중합니다.</p>
           </div>
           <div className="ai-tool-list">
             {aiTools.map((tool) => (
               <div className="ai-tool reveal" key={tool.name}>
                 <strong>{tool.name}</strong>
                 <p>{tool.role}</p>
-                <ChevronRight aria-hidden="true" />
               </div>
             ))}
           </div>
