@@ -76,30 +76,100 @@ function Header() {
   )
 }
 
-function Hero() {
-  const [wordIndex, setWordIndex] = useState<number | null>(0)
+function MorphingHeroText() {
+  const currentTextRef = useRef<HTMLSpanElement>(null)
+  const nextTextRef = useRef<HTMLSpanElement>(null)
+  const [startCycle, setStartCycle] = useState(0)
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      if (wordIndex === null) {
-        setWordIndex(0)
-      } else if (wordIndex === heroWords.length - 1) {
-        setWordIndex(null)
-      } else {
-        setWordIndex(wordIndex + 1)
-      }
-    }, wordIndex === null ? 600 : 2100)
+    const holdTime = 1.35
+    const morphTime = 0.75
+    const refineOutTime = 0.55
+    const blankTime = 0.6
+    const thinkInTime = 0.55
+    let currentIndex = heroWords.length - 1
+    let nextIndex = 0
+    let thinkStarted = false
+    let stageStartedAt = performance.now() - (holdTime + refineOutTime + blankTime) * 1000
+    let animationFrame = 0
 
-    return () => window.clearTimeout(timer)
-  }, [wordIndex])
+    const paint = (element: HTMLSpanElement | null, text: string, blur: number, opacity: number) => {
+      if (!element) return
+      element.textContent = text
+      element.style.filter = `blur(${Math.min(blur, 100)}px)`
+      element.style.opacity = String(Math.max(0, Math.min(opacity, 1)))
+    }
+
+    const showStableWord = (index: number) => {
+      paint(currentTextRef.current, heroWords[index], 0, 1)
+      paint(nextTextRef.current, heroWords[(index + 1) % heroWords.length], 100, 0)
+    }
+
+    const renderFrame = (now: number) => {
+      const elapsed = (now - stageStartedAt) / 1000
+
+      if (currentIndex === heroWords.length - 1) {
+        if (elapsed < holdTime) {
+          showStableWord(currentIndex)
+        } else if (elapsed < holdTime + refineOutTime) {
+          const fraction = (elapsed - holdTime) / refineOutTime
+          paint(currentTextRef.current, heroWords[currentIndex], 8 / Math.max(1 - fraction, 0.01) - 8, Math.pow(1 - fraction, 0.4))
+          paint(nextTextRef.current, heroWords[nextIndex], 100, 0)
+        } else if (elapsed < holdTime + refineOutTime + blankTime) {
+          paint(currentTextRef.current, heroWords[currentIndex], 100, 0)
+          paint(nextTextRef.current, heroWords[nextIndex], 100, 0)
+        } else if (elapsed < holdTime + refineOutTime + blankTime + thinkInTime) {
+          if (!thinkStarted) {
+            thinkStarted = true
+            setStartCycle((cycle) => cycle + 1)
+          }
+          const fraction = (elapsed - holdTime - refineOutTime - blankTime) / thinkInTime
+          paint(currentTextRef.current, heroWords[currentIndex], 100, 0)
+          paint(nextTextRef.current, heroWords[nextIndex], 8 / Math.max(fraction, 0.01) - 8, Math.pow(fraction, 0.4))
+        } else {
+          currentIndex = 0
+          nextIndex = 1
+          thinkStarted = false
+          stageStartedAt = now
+          showStableWord(currentIndex)
+        }
+      } else if (elapsed < holdTime) {
+        showStableWord(currentIndex)
+      } else if (elapsed < holdTime + morphTime) {
+        const fraction = (elapsed - holdTime) / morphTime
+        paint(nextTextRef.current, heroWords[nextIndex], 8 / Math.max(fraction, 0.01) - 8, Math.pow(fraction, 0.4))
+        const inverse = 1 - fraction
+        paint(currentTextRef.current, heroWords[currentIndex], 8 / Math.max(inverse, 0.01) - 8, Math.pow(inverse, 0.4))
+      } else {
+        currentIndex = nextIndex
+        nextIndex = (nextIndex + 1) % heroWords.length
+        stageStartedAt = now
+        showStableWord(currentIndex)
+      }
+
+      animationFrame = window.requestAnimationFrame(renderFrame)
+    }
+
+    animationFrame = window.requestAnimationFrame(renderFrame)
+    return () => window.cancelAnimationFrame(animationFrame)
+  }, [])
+
+  return (
+    <h1 id="hero-title" className="hero-word" aria-label="THINK, MAKE, REFINE">
+      <i className="hero-start-lines" key={startCycle} aria-hidden="true" />
+      <span className="hero-word__text" ref={currentTextRef} aria-hidden="true" />
+      <span className="hero-word__text" ref={nextTextRef} aria-hidden="true" />
+    </h1>
+  )
+}
+
+function Hero() {
 
   return (
     <section className="hero section-snap" id="top" aria-labelledby="hero-title">
       <div className="hero-stage">
         <div className="hero-copy">
-          <h1 id="hero-title" className={`hero-word ${wordIndex === 0 ? 'hero-word--start' : ''}`} aria-live="polite">
-            {wordIndex !== null && <span key={wordIndex}>{heroWords[wordIndex]}</span>}
-          </h1>
+          <MorphingHeroText />
         </div>
       </div>
 

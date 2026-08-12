@@ -81,16 +81,13 @@ ul { list-style: none; }
 .hero-stage { width: min(1500px,calc(100% - 96px)); height: 100%; margin: auto; display: grid; place-items: center; }
 .hero-copy { width: 100%; text-align: center; }
 .hero-word { position: relative; height: .92em; display: grid; place-items: center; font-size: clamp(92px,18vw,260px); font-weight: 700; line-height: .82; letter-spacing: -.075em; color: #181a1e; }
-.hero-word span { position: relative; z-index: 1; padding-right: .075em; animation: morphWord 2.1s cubic-bezier(.22,.8,.22,1) both; }
-.hero-word--start::before, .hero-word--start::after { content: ''; position: absolute; top: 50%; left: 50%; width: min(76vw,1080px); height: 1px; background: #9da1a7; transform-origin: center; pointer-events: none; }
-.hero-word--start::before { animation: startLineTop 1.15s cubic-bezier(.22,.8,.22,1) both; }
-.hero-word--start::after { animation: startLineBottom 1.15s cubic-bezier(.22,.8,.22,1) both; }
-.hero-word--start span { animation-name: morphStartWord; }
+.hero-word__text { position: absolute; z-index: 1; inset: 50% auto auto 50%; padding-right: .075em; white-space: nowrap; transform: translate(-50%,-50%); will-change: filter,opacity; }
+.hero-start-lines::before, .hero-start-lines::after { content: ''; position: absolute; top: 50%; left: 50%; width: min(76vw,1080px); height: 1px; background: #9da1a7; transform-origin: center; pointer-events: none; }
+.hero-start-lines::before { animation: startLineTop 1.15s cubic-bezier(.22,.8,.22,1) both; }
+.hero-start-lines::after { animation: startLineBottom 1.15s cubic-bezier(.22,.8,.22,1) both; }
 .hero-footer { position: absolute; left: 48px; right: 48px; bottom: 32px; display: flex; align-items: center; justify-content: space-between; color: var(--color-text-tertiary); font-size: 10px; font-weight: 600; letter-spacing: .14em; }
 .hero-scroll { display: inline-flex; align-items: center; gap: 8px; padding: 10px 0; background: transparent; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; }
 
-@keyframes morphWord { 0% { opacity: 0; filter: blur(12px); transform: translateY(30%); } 18%,78% { opacity: 1; filter: blur(0); transform: translateY(0); } 100% { opacity: 0; filter: blur(12px); transform: translateY(-30%); } }
-@keyframes morphStartWord { 0%,14% { opacity: 0; filter: blur(8px); transform: translateY(16%); } 28%,78% { opacity: 1; filter: blur(0); transform: translateY(0); } 100% { opacity: 0; filter: blur(12px); transform: translateY(-30%); } }
 @keyframes startLineTop { 0% { opacity: 0; transform: translate(-50%,-50%) scaleX(0); } 24% { opacity: 1; transform: translate(-50%,-50%) scaleX(1); } 68% { opacity: .8; transform: translate(-50%,-.5em) scaleX(1); } 100% { opacity: 0; transform: translate(-50%,-.5em) scaleX(1); } }
 @keyframes startLineBottom { 0% { opacity: 0; transform: translate(-50%,-50%) scaleX(0); } 24% { opacity: 1; transform: translate(-50%,-50%) scaleX(1); } 68% { opacity: .8; transform: translate(-50%,.5em) scaleX(1); } 100% { opacity: 0; transform: translate(-50%,.5em) scaleX(1); } }
 
@@ -390,6 +387,6 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms!important; animation-iteration-count: 1!important; scroll-behavior: auto!important; transition-duration: .01ms!important; }
-  .hero-word span, .hero-word--start::before, .hero-word--start::after { animation: none; }
+  .hero-start-lines::before, .hero-start-lines::after { animation: none; }
   .reveal { opacity: 1; transform: none; }
 }
