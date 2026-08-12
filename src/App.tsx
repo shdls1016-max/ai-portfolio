@@ -30,7 +30,7 @@ import {
 } from './data/portfolio'
 
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
-const heroPhrases = ['요구를 이해하고', '방향을 설계하고', '아이디어를 전개하고', '결과를 완성합니다']
+const heroWords = ['THINK', 'MAKE', 'REFINE']
 
 const sectionLinks = [
   ['about', 'About'],
@@ -77,78 +77,27 @@ function Header() {
 }
 
 function Hero() {
-  const [phraseIndex, setPhraseIndex] = useState(0)
-  const [noteOffsets, setNoteOffsets] = useState<Record<string, { x: number; y: number }>>({})
-  const noteDrag = useRef<{ id: string; x: number; y: number; startX: number; startY: number } | null>(null)
+  const [wordIndex, setWordIndex] = useState(0)
 
   useEffect(() => {
-    const timer = window.setInterval(() => setPhraseIndex((index) => (index + 1) % heroPhrases.length), 2400)
+    const timer = window.setInterval(() => setWordIndex((index) => (index + 1) % heroWords.length), 2100)
     return () => window.clearInterval(timer)
   }, [])
 
-  const startNoteDrag = (event: PointerEvent<HTMLDivElement>, id: string) => {
-    if (event.pointerType === 'touch') return
-    const current = noteOffsets[id] ?? { x: 0, y: 0 }
-    noteDrag.current = { id, x: current.x, y: current.y, startX: event.clientX, startY: event.clientY }
-    event.currentTarget.setPointerCapture(event.pointerId)
-  }
-
-  const moveNote = (event: PointerEvent<HTMLDivElement>) => {
-    if (!noteDrag.current) return
-    const drag = noteDrag.current
-    setNoteOffsets((offsets) => ({
-      ...offsets,
-      [drag.id]: { x: drag.x + event.clientX - drag.startX, y: drag.y + event.clientY - drag.startY },
-    }))
-  }
-
-  const stopNoteDrag = () => { noteDrag.current = null }
-
-  const notes = [
-    { id: 'brief', label: '01 / BRIEF', title: '요구를 읽는 일', className: 'hero-note--brief' },
-    { id: 'visual', label: '02 / VISUAL', title: '기준을 세우는 일', className: 'hero-note--visual' },
-    { id: 'build', label: '03 / BUILD', title: '끝까지 다듬는 일', className: 'hero-note--build' },
-  ]
-
   return (
     <section className="hero section-snap" id="top" aria-labelledby="hero-title">
-      <div className="hero-flicker-grid" aria-hidden="true">
-        {Array.from({ length: 70 }, (_, index) => <span key={index} style={{ '--cell-delay': `${(index * 0.17) % 4.8}s` } as CSSProperties} />)}
-      </div>
-      <div className="hero-meta hero-meta--top">
-        <span>PORTFOLIO 2026</span>
-        <span>WEB &amp; VISUAL DESIGN</span>
-      </div>
-
       <div className="hero-stage">
         <div className="hero-copy">
-          <p className="hero-kicker">SON HYEIN · WEB &amp; VISUAL DESIGNER</p>
-          <h1 id="hero-title">생각을 정리하고,<br /><span>화면으로 완성합니다.</span></h1>
-          <div className="hero-morph" aria-live="polite"><span key={phraseIndex}>{heroPhrases[phraseIndex]}</span></div>
-          <p className="hero-lead">AI로 선택지를 넓히되, 무엇을 남기고 어떻게 보여줄지는 직접 판단합니다.</p>
-        </div>
-
-        <div className="hero-notes" aria-label="작업 방식 키워드">
-          {notes.map((note) => (
-            <div
-              className={`hero-note ${note.className}`}
-              key={note.id}
-              style={{ '--note-x': `${noteOffsets[note.id]?.x ?? 0}px`, '--note-y': `${noteOffsets[note.id]?.y ?? 0}px` } as CSSProperties}
-              onPointerDown={(event) => startNoteDrag(event, note.id)}
-              onPointerMove={moveNote}
-              onPointerUp={stopNoteDrag}
-              onPointerCancel={stopNoteDrag}
-            ><span>{note.label}</span><strong>{note.title}</strong></div>
-          ))}
+          <p className="hero-kicker">WEB &amp; VISUAL DESIGNER</p>
+          <h1 id="hero-title" className="hero-word" aria-live="polite">
+            <span key={wordIndex}>{heroWords[wordIndex]}</span>
+          </h1>
         </div>
       </div>
 
-      <div className="hero-meta hero-meta--bottom">
-        <span>WEB DESIGN · AI VISUAL · FRONTEND</span>
-        <button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
-          SCROLL TO EXPLORE <ArrowDown size={14} />
-        </button>
-      </div>
+      <button className="hero-scroll" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
+        SCROLL TO EXPLORE <ArrowDown size={14} />
+      </button>
     </section>
   )
 }
@@ -165,9 +114,9 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 
 function About() {
   const process = [
-    ['UNDERSTAND', '요구 이해', '클라이언트의 요구와 전달할 메시지를 파악해 작업의 기준을 정합니다.'],
-    ['DESIGN', '방향 설계', '대상과 매체에 맞춰 콘텐츠 구조와 시각적 기준을 세웁니다.'],
-    ['DEVELOP', '아이디어 전개', '설정한 방향을 바탕으로 AI를 활용해 다양한 아이디어를 시안으로 발전시킵니다.'],
+    ['THINK · 01', '요구 이해', '클라이언트의 요구와 전달할 메시지를 파악해 작업의 기준을 정합니다.'],
+    ['THINK · 02', '방향 설계', '대상과 매체에 맞춰 콘텐츠 구조와 시각적 기준을 세웁니다.'],
+    ['MAKE', '아이디어 전개', '설정한 방향을 바탕으로 AI를 활용해 다양한 아이디어를 시안으로 발전시킵니다.'],
     ['REFINE', '선택과 완성', '적합한 안을 직접 선택하고 디자인과 코드를 다듬어 실제 결과물로 완성합니다.'],
   ]
 
