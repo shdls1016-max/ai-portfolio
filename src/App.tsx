@@ -224,25 +224,21 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 function About() {
   const process = [
     {
-      label: 'THINK · 01',
       title: '요구 이해',
       copy: '클라이언트의 요구와 전달할 메시지를 파악해 작업의 기준을 정합니다.',
       tools: ['Gemini', 'Codex'],
     },
     {
-      label: 'THINK · 02',
       title: '방향 설계',
       copy: '대상과 매체에 맞춰 콘텐츠 구조와 시각적 기준을 세웁니다.',
       tools: ['Gemini', 'Figma', 'Codex'],
     },
     {
-      label: 'MAKE',
       title: '아이디어 전개',
       copy: '설정한 방향을 바탕으로 AI를 활용해 다양한 아이디어를 시안으로 발전시킵니다.',
       tools: ['Ideogram', 'Midjourney', 'Codex'],
     },
     {
-      label: 'REFINE',
       title: '선택과 완성',
       copy: '적합한 안을 직접 선택하고 디자인과 코드를 다듬어 실제 결과물로 완성합니다.',
       tools: ['Figma', 'Photoshop', 'HTML', 'CSS', 'JavaScript', 'Codex', 'GitHub', 'Vercel', 'Cloudflare'],
@@ -259,10 +255,8 @@ function About() {
         </div>
 
         <div className="process-list">
-          {process.map((step, index) => (
-            <article className="process-step reveal" key={step.label}>
-              <span className="process-step__index">{String(index + 1).padStart(2, '0')}</span>
-              <span className="process-step__label">{step.label}</span>
+          {process.map((step) => (
+            <article className="process-step reveal" key={step.title}>
               <h3>{step.title}</h3>
               <p>{step.copy}</p>
               <div className="process-step__tools" aria-label={`${step.title} 사용 도구`}>
