@@ -80,16 +80,11 @@ ul { list-style: none; }
 .hero { position: relative; height: 100svh; min-height: 620px; overflow: hidden; background: #f2f2f2; }
 .hero-stage { width: min(1500px,calc(100% - 96px)); height: 100%; margin: auto; display: grid; place-items: center; }
 .hero-copy { width: 100%; text-align: center; }
-.hero-word { position: relative; height: .92em; display: grid; place-items: center; font-size: clamp(92px,18vw,260px); font-weight: 700; line-height: .82; letter-spacing: -.075em; color: #181a1e; }
+.hero-word { position: relative; height: .92em; display: grid; place-items: center; font-size: clamp(56px,15vw,220px); font-weight: 700; line-height: .82; letter-spacing: -.075em; color: #181a1e; filter: url(#hero-morph-threshold) blur(.6px); }
 .hero-word__text { position: absolute; z-index: 1; inset: 50% auto auto 50%; padding-right: .075em; white-space: nowrap; transform: translate(-50%,-50%); will-change: filter,opacity; }
-.hero-start-lines::before, .hero-start-lines::after { content: ''; position: absolute; top: 50%; left: 50%; width: min(76vw,1080px); height: 1px; background: #9da1a7; transform-origin: center; pointer-events: none; }
-.hero-start-lines::before { animation: startLineTop 1.15s cubic-bezier(.22,.8,.22,1) both; }
-.hero-start-lines::after { animation: startLineBottom 1.15s cubic-bezier(.22,.8,.22,1) both; }
+.hero-morph-filter { position: fixed; width: 0; height: 0; pointer-events: none; }
 .hero-footer { position: absolute; left: 48px; right: 48px; bottom: 32px; display: flex; align-items: center; justify-content: space-between; color: var(--color-text-tertiary); font-size: 10px; font-weight: 600; letter-spacing: .14em; }
 .hero-scroll { display: inline-flex; align-items: center; gap: 8px; padding: 10px 0; background: transparent; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; }
-
-@keyframes startLineTop { 0% { opacity: 0; transform: translate(-50%,-50%) scaleX(0); } 24% { opacity: 1; transform: translate(-50%,-50%) scaleX(1); } 68% { opacity: .8; transform: translate(-50%,-.5em) scaleX(1); } 100% { opacity: 0; transform: translate(-50%,-.5em) scaleX(1); } }
-@keyframes startLineBottom { 0% { opacity: 0; transform: translate(-50%,-50%) scaleX(0); } 24% { opacity: 1; transform: translate(-50%,-50%) scaleX(1); } 68% { opacity: .8; transform: translate(-50%,.5em) scaleX(1); } 100% { opacity: 0; transform: translate(-50%,.5em) scaleX(1); } }
 
 .section-heading { max-width: 800px; }
 .section-eyebrow { margin-bottom: 16px; font-size: var(--font-small); font-weight: 700; letter-spacing: .13em; color: var(--color-accent); text-transform: uppercase; }
@@ -302,7 +297,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   .global-nav button { min-height: 46px; text-align: left; border-bottom: 1px solid var(--color-line); }
   .hero { min-height: 580px; }
   .hero-stage { width: calc(100% - 36px); }
-  .hero-word { font-size: clamp(84px,20vw,160px); }
+  .hero-word { font-size: clamp(56px,15vw,132px); }
   .hero-footer { left: 18px; right: 18px; bottom: 22px; }
   .about-intro { grid-template-columns: 1fr; gap: 34px; }
   .about-intro__copy { padding-top: 0; }
@@ -349,7 +344,7 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
   :root { --container: calc(100% - 28px); --font-body: .9375rem; }
   .desktop-only { display: none; }
   .hero-stage { width: calc(100% - 28px); }
-  .hero-word { font-size: clamp(68px,22vw,112px); }
+  .hero-word { font-size: clamp(50px,15vw,84px); }
   .hero-footer { font-size: 9px; letter-spacing: .1em; }
   .about { padding-top: 110px; }
   .about-intro h2 { font-size: 36px; }
@@ -387,6 +382,5 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms!important; animation-iteration-count: 1!important; scroll-behavior: auto!important; transition-duration: .01ms!important; }
-  .hero-start-lines::before, .hero-start-lines::after { animation: none; }
   .reveal { opacity: 1; transform: none; }
 }

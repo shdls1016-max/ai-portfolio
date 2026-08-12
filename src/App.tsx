@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import {
   ArrowDown,
@@ -30,7 +30,7 @@ import {
 } from './data/portfolio'
 
 const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
-const heroWords = ['THINK', 'MAKE', 'REFINE']
+const heroWords = ['THINK', 'MAKE', 'REFINE', 'PORTFOLIO']
 
 const sectionLinks = [
   ['about', 'About'],
@@ -77,89 +77,119 @@ function Header() {
 }
 
 function MorphingHeroText() {
-  const currentTextRef = useRef<HTMLSpanElement>(null)
-  const nextTextRef = useRef<HTMLSpanElement>(null)
-  const [startCycle, setStartCycle] = useState(0)
+  const textIndexRef = useRef(0)
+  const morphRef = useRef(0)
+  const cooldownRef = useRef(0.8)
+  const timeRef = useRef(new Date())
+  const text1Ref = useRef<HTMLSpanElement>(null)
+  const text2Ref = useRef<HTMLSpanElement>(null)
+  const finishedRef = useRef(false)
 
-  useEffect(() => {
-    const holdTime = 1.35
-    const morphTime = 0.75
-    const refineOutTime = 0.55
-    const blankTime = 0.6
-    const thinkInTime = 0.55
-    let currentIndex = heroWords.length - 1
-    let nextIndex = 0
-    let thinkStarted = false
-    let stageStartedAt = performance.now() - (holdTime + refineOutTime + blankTime) * 1000
-    let animationFrame = 0
+  const setStyles = useCallback((fraction: number) => {
+    const [current1, current2] = [text1Ref.current, text2Ref.current]
+    if (!current1 || !current2) return
 
-    const paint = (element: HTMLSpanElement | null, text: string, blur: number, opacity: number) => {
-      if (!element) return
-      element.textContent = text
-      element.style.filter = `blur(${Math.min(blur, 100)}px)`
-      element.style.opacity = String(Math.max(0, Math.min(opacity, 1)))
-    }
+    current2.style.filter = `blur(${Math.min(8 / Math.max(fraction, 0.001) - 8, 100)}px)`
+    current2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`
 
-    const showStableWord = (index: number) => {
-      paint(currentTextRef.current, heroWords[index], 0, 1)
-      paint(nextTextRef.current, heroWords[(index + 1) % heroWords.length], 100, 0)
-    }
+    const invertedFraction = 1 - fraction
+    current1.style.filter = `blur(${Math.min(8 / Math.max(invertedFraction, 0.001) - 8, 100)}px)`
+    current1.style.opacity = `${Math.pow(invertedFraction, 0.4) * 100}%`
 
-    const renderFrame = (now: number) => {
-      const elapsed = (now - stageStartedAt) / 1000
-
-      if (currentIndex === heroWords.length - 1) {
-        if (elapsed < holdTime) {
-          showStableWord(currentIndex)
-        } else if (elapsed < holdTime + refineOutTime) {
-          const fraction = (elapsed - holdTime) / refineOutTime
-          paint(currentTextRef.current, heroWords[currentIndex], 8 / Math.max(1 - fraction, 0.01) - 8, Math.pow(1 - fraction, 0.4))
-          paint(nextTextRef.current, heroWords[nextIndex], 100, 0)
-        } else if (elapsed < holdTime + refineOutTime + blankTime) {
-          paint(currentTextRef.current, heroWords[currentIndex], 100, 0)
-          paint(nextTextRef.current, heroWords[nextIndex], 100, 0)
-        } else if (elapsed < holdTime + refineOutTime + blankTime + thinkInTime) {
-          if (!thinkStarted) {
-            thinkStarted = true
-            setStartCycle((cycle) => cycle + 1)
-          }
-          const fraction = (elapsed - holdTime - refineOutTime - blankTime) / thinkInTime
-          paint(currentTextRef.current, heroWords[currentIndex], 100, 0)
-          paint(nextTextRef.current, heroWords[nextIndex], 8 / Math.max(fraction, 0.01) - 8, Math.pow(fraction, 0.4))
-        } else {
-          currentIndex = 0
-          nextIndex = 1
-          thinkStarted = false
-          stageStartedAt = now
-          showStableWord(currentIndex)
-        }
-      } else if (elapsed < holdTime) {
-        showStableWord(currentIndex)
-      } else if (elapsed < holdTime + morphTime) {
-        const fraction = (elapsed - holdTime) / morphTime
-        paint(nextTextRef.current, heroWords[nextIndex], 8 / Math.max(fraction, 0.01) - 8, Math.pow(fraction, 0.4))
-        const inverse = 1 - fraction
-        paint(currentTextRef.current, heroWords[currentIndex], 8 / Math.max(inverse, 0.01) - 8, Math.pow(inverse, 0.4))
-      } else {
-        currentIndex = nextIndex
-        nextIndex = (nextIndex + 1) % heroWords.length
-        stageStartedAt = now
-        showStableWord(currentIndex)
-      }
-
-      animationFrame = window.requestAnimationFrame(renderFrame)
-    }
-
-    animationFrame = window.requestAnimationFrame(renderFrame)
-    return () => window.cancelAnimationFrame(animationFrame)
+    current1.textContent = heroWords[textIndexRef.current]
+    current2.textContent = heroWords[Math.min(textIndexRef.current + 1, heroWords.length - 1)]
   }, [])
 
+  const showFinalWord = useCallback(() => {
+    const [current1, current2] = [text1Ref.current, text2Ref.current]
+    if (!current1 || !current2) return
+    current1.textContent = ''
+    current1.style.opacity = '0%'
+    current1.style.filter = 'none'
+    current2.textContent = heroWords.at(-1) ?? 'PORTFOLIO'
+    current2.style.opacity = '100%'
+    current2.style.filter = 'none'
+  }, [])
+
+  useEffect(() => {
+    const morphTime = 1.5
+    const cooldownTime = 0.5
+    let animationFrameId = 0
+
+    const doCooldown = () => {
+      morphRef.current = 0
+      const [current1, current2] = [text1Ref.current, text2Ref.current]
+      if (!current1 || !current2) return
+      current1.textContent = heroWords[textIndexRef.current]
+      current2.textContent = heroWords[Math.min(textIndexRef.current + 1, heroWords.length - 1)]
+      current2.style.filter = 'none'
+      current2.style.opacity = '0%'
+      current1.style.filter = 'none'
+      current1.style.opacity = '100%'
+    }
+
+    const animate = () => {
+      if (finishedRef.current) return
+      animationFrameId = window.requestAnimationFrame(animate)
+
+      const newTime = new Date()
+      const dt = (newTime.getTime() - timeRef.current.getTime()) / 1000
+      timeRef.current = newTime
+      cooldownRef.current -= dt
+
+      if (cooldownRef.current > 0) {
+        doCooldown()
+        return
+      }
+
+      morphRef.current += dt
+      const fraction = Math.min(morphRef.current / morphTime, 1)
+      setStyles(fraction)
+
+      if (fraction === 1) {
+        textIndexRef.current += 1
+        if (textIndexRef.current === heroWords.length - 1) {
+          finishedRef.current = true
+          showFinalWord()
+        } else {
+          cooldownRef.current = cooldownTime
+        }
+      }
+    }
+
+    const [current1, current2] = [text1Ref.current, text2Ref.current]
+    if (current1 && current2) {
+      current1.textContent = heroWords[0]
+      current1.style.opacity = '100%'
+      current2.textContent = heroWords[1]
+      current2.style.opacity = '0%'
+    }
+    timeRef.current = new Date()
+    animationFrameId = window.requestAnimationFrame(animate)
+    return () => window.cancelAnimationFrame(animationFrameId)
+  }, [setStyles, showFinalWord])
+
   return (
-    <h1 id="hero-title" className="hero-word" aria-label="THINK, MAKE, REFINE">
-      <i className="hero-start-lines" key={startCycle} aria-hidden="true" />
-      <span className="hero-word__text" ref={currentTextRef} aria-hidden="true" />
-      <span className="hero-word__text" ref={nextTextRef} aria-hidden="true" />
-    </h1>
+    <>
+      <h1 id="hero-title" className="hero-word" aria-label="THINK, MAKE, REFINE, PORTFOLIO">
+        <span className="hero-word__text" ref={text1Ref} aria-hidden="true" />
+        <span className="hero-word__text" ref={text2Ref} aria-hidden="true" />
+      </h1>
+      <svg className="hero-morph-filter" aria-hidden="true">
+        <defs>
+          <filter id="hero-morph-threshold">
+            <feColorMatrix
+              in="SourceGraphic"
+              type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 255 -140"
+            />
+          </filter>
+        </defs>
+      </svg>
+    </>
   )
 }
 
