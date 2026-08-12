@@ -88,16 +88,18 @@ function Hero() {
     <section className="hero section-snap" id="top" aria-labelledby="hero-title">
       <div className="hero-stage">
         <div className="hero-copy">
-          <p className="hero-kicker">WEB &amp; VISUAL DESIGNER</p>
           <h1 id="hero-title" className="hero-word" aria-live="polite">
             <span key={wordIndex}>{heroWords[wordIndex]}</span>
           </h1>
         </div>
       </div>
 
-      <button className="hero-scroll" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
-        SCROLL TO EXPLORE <ArrowDown size={14} />
-      </button>
+      <div className="hero-footer">
+        <span>WEB &amp; VISUAL DESIGNER</span>
+        <button className="hero-scroll" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
+          SCROLL TO EXPLORE <ArrowDown size={14} />
+        </button>
+      </div>
     </section>
   )
 }
