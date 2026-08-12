@@ -77,19 +77,28 @@ function Header() {
 }
 
 function Hero() {
-  const [wordIndex, setWordIndex] = useState(0)
+  const [wordIndex, setWordIndex] = useState<number | null>(0)
 
   useEffect(() => {
-    const timer = window.setInterval(() => setWordIndex((index) => (index + 1) % heroWords.length), 2100)
-    return () => window.clearInterval(timer)
-  }, [])
+    const timer = window.setTimeout(() => {
+      if (wordIndex === null) {
+        setWordIndex(0)
+      } else if (wordIndex === heroWords.length - 1) {
+        setWordIndex(null)
+      } else {
+        setWordIndex(wordIndex + 1)
+      }
+    }, wordIndex === null ? 600 : 2100)
+
+    return () => window.clearTimeout(timer)
+  }, [wordIndex])
 
   return (
     <section className="hero section-snap" id="top" aria-labelledby="hero-title">
       <div className="hero-stage">
         <div className="hero-copy">
-          <h1 id="hero-title" className="hero-word" aria-live="polite">
-            <span key={wordIndex}>{heroWords[wordIndex]}</span>
+          <h1 id="hero-title" className={`hero-word ${wordIndex === 0 ? 'hero-word--start' : ''}`} aria-live="polite">
+            {wordIndex !== null && <span key={wordIndex}>{heroWords[wordIndex]}</span>}
           </h1>
         </div>
       </div>
