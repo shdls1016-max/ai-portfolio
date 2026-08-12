@@ -14,14 +14,12 @@ import {
   X,
 } from 'lucide-react'
 import {
-  aiTools,
   cardNews,
   cardNewsBlogUrl,
   detailProjects,
   games,
   landingProjects,
   posters,
-  skills,
   webProjects,
   wideBanners,
   type DetailProject,
@@ -225,10 +223,30 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 
 function About() {
   const process = [
-    ['THINK · 01', '요구 이해', '클라이언트의 요구와 전달할 메시지를 파악해 작업의 기준을 정합니다.'],
-    ['THINK · 02', '방향 설계', '대상과 매체에 맞춰 콘텐츠 구조와 시각적 기준을 세웁니다.'],
-    ['MAKE', '아이디어 전개', '설정한 방향을 바탕으로 AI를 활용해 다양한 아이디어를 시안으로 발전시킵니다.'],
-    ['REFINE', '선택과 완성', '적합한 안을 직접 선택하고 디자인과 코드를 다듬어 실제 결과물로 완성합니다.'],
+    {
+      label: 'THINK · 01',
+      title: '요구 이해',
+      copy: '클라이언트의 요구와 전달할 메시지를 파악해 작업의 기준을 정합니다.',
+      tools: ['Gemini', 'Codex'],
+    },
+    {
+      label: 'THINK · 02',
+      title: '방향 설계',
+      copy: '대상과 매체에 맞춰 콘텐츠 구조와 시각적 기준을 세웁니다.',
+      tools: ['Gemini', 'Figma', 'Codex'],
+    },
+    {
+      label: 'MAKE',
+      title: '아이디어 전개',
+      copy: '설정한 방향을 바탕으로 AI를 활용해 다양한 아이디어를 시안으로 발전시킵니다.',
+      tools: ['Ideogram', 'Midjourney', 'Codex'],
+    },
+    {
+      label: 'REFINE',
+      title: '선택과 완성',
+      copy: '적합한 안을 직접 선택하고 디자인과 코드를 다듬어 실제 결과물로 완성합니다.',
+      tools: ['Figma', 'Photoshop', 'HTML', 'CSS', 'JavaScript', 'Codex', 'GitHub', 'Vercel', 'Cloudflare'],
+    },
   ]
 
   return (
@@ -236,47 +254,22 @@ function About() {
       <div className="section-inner about-inner">
         <div className="about-intro">
           <p className="section-eyebrow">01 · APPROACH</p>
-          <h2>도구보다 먼저<br />방향을 생각합니다.</h2>
-          <div className="about-intro__copy">
-            <p>빠르게 만드는 것보다 무엇을, 누구에게, 어떤 방식으로 전달할지 먼저 정리합니다.</p>
-            <p>AI는 아이디어와 제작 범위를 넓히는 도구로 활용하고, 최종 선택과 수정은 직접 수행합니다.</p>
-          </div>
+          <h2>AI로 가능성을 넓히고,<br />직접 판단해 완성합니다.</h2>
+          <p className="about-intro__copy">요구를 이해하는 일부터 결과를 구현하고 검수하는 과정까지, 목적에 맞는 도구를 선택해 작업합니다.</p>
         </div>
 
         <div className="process-list">
-          {process.map(([label, title, copy], index) => (
-            <article className="process-step reveal" key={label}>
+          {process.map((step, index) => (
+            <article className="process-step reveal" key={step.label}>
               <span className="process-step__index">{String(index + 1).padStart(2, '0')}</span>
-              <span className="process-step__label">{label}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
+              <span className="process-step__label">{step.label}</span>
+              <h3>{step.title}</h3>
+              <p>{step.copy}</p>
+              <div className="process-step__tools" aria-label={`${step.title} 사용 도구`}>
+                {step.tools.map((tool) => <span key={tool}>{tool}</span>)}
+              </div>
             </article>
           ))}
-        </div>
-
-        <div className="tool-area about-tools">
-          <div className="tool-heading reveal">
-            <div><p>AI TOOLKIT</p><h3>필요한 역할에 맞춰 선택합니다.</h3></div>
-            <p className="tool-heading__note">생성 자체보다 조합과 수정에 집중합니다.</p>
-          </div>
-          <div className="ai-tool-list">
-            {aiTools.map((tool) => (
-              <div className="ai-tool reveal" key={tool.name}>
-                <strong>{tool.name}</strong>
-                <p>{tool.role}</p>
-              </div>
-            ))}
-          </div>
-          <div className="skill-marquee" aria-label="사용 기술">
-            <div className="skill-marquee__track">
-              <div className="skill-marquee__group">
-                {skills.map((skill) => <span key={skill}>{skill}</span>)}
-              </div>
-              <div className="skill-marquee__group" aria-hidden="true">
-                {skills.map((skill) => <span key={skill}>{skill}</span>)}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
