@@ -155,10 +155,10 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .game-layout { --game-edge-space: clamp(36px,5vw,76px); display: grid; grid-template-columns: minmax(320px,.82fr) minmax(0,1.18fr); align-items: stretch; gap: clamp(70px,9vw,140px); }
 .game-section--reverse .game-visual { order: 2; padding: 0 var(--game-edge-space) 0 0; place-items: center end; }
 .game-section--reverse .game-copy { order: 1; padding-left: var(--game-edge-space); }
-.game-visual, .game-copy { height: clamp(600px,70vh,660px); }
+.game-visual, .game-copy { height: clamp(520px,62vh,580px); }
 .game-visual { display: grid; padding-left: var(--game-edge-space); place-items: center start; }
 .game-copy { display: flex; flex-direction: column; justify-content: center; }
-.device-mockup-stage { width: auto; height: 100%; max-height: 620px; aspect-ratio: 9/19; container-type: size; }
+.device-mockup-stage { width: auto; height: 100%; max-height: 560px; aspect-ratio: 9/19; container-type: size; }
 .device-mockup { position: relative; width: 100%; height: 100%; padding: 2.42cqh 4.08cqw; border: 1px solid rgba(178,187,199,.72); border-radius: 17.69cqw / 8.39cqh; background: linear-gradient(145deg,#fff 0%,#edf0f4 48%,#d9dee5 100%); box-shadow: -6.12cqw -2.42cqh 11.9cqw rgba(255,255,255,.9), 8.84cqw 5.48cqh 23.8cqw rgba(55,67,84,.2), inset 1px 1px 3px rgba(255,255,255,.95), inset -1.02cqw -.48cqh 2.72cqw rgba(114,127,144,.18); }
 .device-mockup::before { content: ''; position: absolute; top: 21.94cqh; right: -1.7cqw; width: 1.7cqw; height: 11.61cqh; border-radius: 0 1.7cqw 1.7cqw 0; background: #d7dce3; box-shadow: 1px 2px 4px rgba(55,67,84,.15); }
 .device-mockup__speaker { position: absolute; z-index: 2; top: 1.29cqh; left: 50%; width: 18.37cqw; height: .81cqh; min-height: 2px; border-radius: 999px; background: #c3cad3; box-shadow: inset 0 1px 2px rgba(72,83,98,.18); transform: translateX(-50%); }
@@ -171,7 +171,6 @@ dd { font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
 .game-copy ul, .detail-copy ul { margin-top: 25px; display: grid; gap: 10px; }
 .game-copy li, .detail-copy li { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--color-text-secondary); }
 .game-copy li svg, .detail-copy li svg { flex: none; color: var(--color-accent); }
-.game-copy .tag-list { margin-top: 28px; }
 .game-copy .button { align-self: flex-start; }
 
 .landing { min-height: 100svh; background: var(--color-surface); }

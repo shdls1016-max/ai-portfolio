@@ -296,7 +296,6 @@ function ProjectInfo({ project, close }: { project: WebProject; close: () => voi
       <div className="color-row" aria-label="메인 컬러">
         {project.colors.map((color) => <span key={color} style={{ backgroundColor: color }} title={color} />)}
       </div>
-      <div className="tag-list">{project.skills.map((skill) => <span key={skill}>{skill}</span>)}</div>
       <a className="button button--dark" href={project.url} target="_blank" rel="noreferrer">
         사이트 방문 <ArrowUpRight size={17} />
       </a>
@@ -465,7 +464,6 @@ function Games() {
                 <div><dt>Duration</dt><dd>{game.duration}</dd></div>
               </dl>
               <ul>{game.features.map((feature) => <li key={feature}><Check size={15} />{feature}</li>)}</ul>
-              <div className="tag-list">{game.skills.map((skill) => <span key={skill}>{skill}</span>)}</div>
               <a className="button button--dark" href={game.url} target="_blank" rel="noreferrer">게임 실행 <ArrowUpRight size={17} /></a>
             </div>
           </div>
